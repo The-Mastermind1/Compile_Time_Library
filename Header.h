@@ -3,7 +3,7 @@
 #include<iostream>
 #include<type_traits>
 #include<complex>
-
+#include<array>
 _PANAGIOTIS_BEGIN
 //HELPERS
 
@@ -11,21 +11,21 @@ _PANAGIOTIS_BEGIN
 
 
 //sqrt for integers
-template<auto n,auto  l0=1,auto  h1=n>
-requires(std::is_arithmetic_v<decltype(n)> &&(n>1))
+template<size_t n,size_t  l0=1,auto  h1=n>
+requires(n>1)
 struct Sqrt {
 	inline static constexpr auto mid = (l0 + h1+1) / 2;
 	using result = std::conditional_t < (mid* mid > n), Sqrt < n, l0 , mid-1 > , Sqrt<n,mid,h1 >> ;
-	inline static constexpr auto  value = result::value;
+	inline static constexpr size_t  value = result::value;
 };
 
 template<auto n,auto m>
 struct Sqrt<n, m, m> {
-	inline static constexpr auto  value = m;
+	inline static constexpr size_t  value = m;
 };
 
-template<auto n, auto l0 = 1, auto h1 = n >
-requires(std::is_arithmetic_v<decltype(n)> && (n > 1))
+template<size_t n, size_t l0 = 1, size_t h1 = n >
+requires(n > 1)
 inline constexpr auto Sqrt_v = Sqrt<n, l0, h1>::value;
 //sqrt for complexes
 template<typename t>
@@ -146,6 +146,40 @@ template<size_t x>
 requires(x<1000)
 inline static constexpr bool IsPrime_V =IsPrime<x>::value;
 
+////enforse same
+template<auto first,auto second,auto...rest>
+requires(std::is_arithmetic_v<decltype(first)>)
+struct Max {
+	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>);
+	inline static constexpr auto value =(first > second)?(Max<first, rest...>::value):(Max<second, rest...>::value);
+};
+
+////enforse same
+//MAX
+template <auto first,auto second>
+requires(std::is_arithmetic_v<decltype(first)>)
+struct Max<first,second> {
+	static_assert(std::is_same_v<decltype(first), decltype(second)>);
+	inline static constexpr auto value =(first>second)?first:second;
+};
+
+template<auto first, auto second, auto...rest>
+requires(std::is_arithmetic_v<decltype(first)>)
+struct Min {
+	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>);
+	inline static constexpr auto value = (first > second) ? (Min<second, rest...>::value) : (Min<first, rest...>::value);
+};
+
+////enforse same
+//Min
+template <auto first, auto second>
+requires(std::is_arithmetic_v<decltype(first)>)
+struct Min<first, second> {
+	
+	static_assert(std::is_same_v<decltype(first), decltype(second)>);
+	inline static constexpr auto value = (first > second) ? second :first;
+	
+};
 
 
 
