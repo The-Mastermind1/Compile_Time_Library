@@ -1,6 +1,8 @@
 #pragma once
 #include<type_traits>
-#include<iostream>
+#include<string>
+#include<utility>
+#include<exception>
 #define _NODISCARD [[nodiscard]]
 
 #define _PANAGIOTIS_BEGIN namespace panagiotis{
@@ -62,7 +64,7 @@ struct MyStruct<true,false> {
 private:
     template<size_t x,long long  n>
     struct Power {
-        inline static constexpr double value = 1.0 / (x * Power<x, n - 1>::value);
+        inline static constexpr double value =  (x * Power<x, n - 1>::value);
     };
     template<size_t x>
     struct Power<x, 1> {
@@ -71,7 +73,7 @@ private:
 public:
 
     template<size_t x, long long n>
-    static constexpr double Power_v = Power<x, -n>::value;
+    static constexpr double Power_v =1.0/ Power<x, -n>::value;
 };
 
 
@@ -80,7 +82,7 @@ struct MyStruct<false, false> {
 private:
     template<long long x, long long  n>
     struct Power {
-        inline static constexpr double value = 1.0 / (x * Power<x, n - 1>::value);
+        inline static constexpr double value =(x * Power<x, n - 1>::value);
     };
     template<long long x>
     struct Power<x, 1> {
@@ -88,8 +90,30 @@ private:
     };
 public:
     template<long long x, long long n>
-    static constexpr double Power_v =-Power<x, -n>::value;
+    static constexpr double Power_v =1.0/Power<x, -n>::value;
 };
+
+
+
+
+
+
+
+// Custom exception class
+class _INVALID_INPUT : public std::exception {
+private:
+    std::string message;
+public:
+    explicit _INVALID_INPUT(std::string msg) : message(std::move(msg)) {}
+
+    // Override the what() function
+    const char* what() const noexcept override {
+        return message.c_str();
+    }
+};
+
+
+
 
 
 _PANAGIOTIS_END
