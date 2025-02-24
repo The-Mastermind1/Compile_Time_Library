@@ -267,6 +267,19 @@ template<auto n>
 requires(n >= 0 && std::is_arithmetic_v<decltype(n)>)
 inline constexpr size_t Finobacci_V = Finobacci<n>::value;
 
+inline constexpr std::size_t Str_Len(const char* str) {//works why ??
+	return (*str == '\0') ? 0 : 1 + Str_Len(str + 1);
+}
+
+
+
+
+
+
+
+
+
+
 
 
 
