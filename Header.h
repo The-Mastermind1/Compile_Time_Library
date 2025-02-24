@@ -4,14 +4,24 @@
 #include<type_traits>
 #include<complex>
 #include<array>
+#include<vector>
 _PANAGIOTIS_BEGIN
-//HELPERS
 
+
+inline constexpr int Floor(double x) {
+	int i = static_cast<int>(x);
+	return (x < i) ? (i - 1) : i;
+}
+
+inline constexpr int Ceil(double x) {
+	int i = static_cast<int>(x);
+	return (x > i) ? (i + 1) : i;
+}
 
 
 
 //sqrt for integers
-template<size_t n,size_t  l0=1,auto  h1=n>
+template<std::size_t n,std::size_t  l0=1,auto  h1=n>
 requires(n>1)
 struct Sqrt {
 	inline static constexpr auto mid = (l0 + h1+1) / 2;
@@ -24,7 +34,7 @@ struct Sqrt<n, m, m> {
 	inline static constexpr size_t  value = m;
 };
 
-template<size_t n, size_t l0 = 1, size_t h1 = n >
+template<size_t n, std::size_t l0 = 1, std::size_t h1 = n >
 requires(n > 1)
 inline constexpr auto Sqrt_v = Sqrt<n, l0, h1>::value;
 //sqrt for complexes
@@ -36,7 +46,7 @@ inline _NODISCARD std::complex<t> square_root_of_complex(const std::complex<t>& 
 //sqrt complete 
 
 //factorial for integers
-template<size_t  n>
+template<std::size_t  n>
 requires( n<=65)
 struct Factorial {
 	inline static constexpr auto value = n * Factorial<n - 1>::value;
@@ -50,8 +60,8 @@ template<>
 struct Factorial<0> {
 	inline static constexpr auto value = 1;
 };
-template<size_t n>
-requires(n >= 0 &&n>=65)
+template<std::size_t n>
+requires(n >= 0 &&n<=65)
 inline constexpr auto Factorial_v = Factorial<n>::value;
 
 
@@ -72,9 +82,10 @@ inline const  auto  Factorial_Decimal_V = Factorial_Decimal<n>::value;
 template<auto x,auto n>
 requires(std::is_integral_v<decltype(x)> &&
 std::is_integral_v<decltype(n)>)
-inline _NODISCARD constexpr auto Power_of_integer_nums() {
-	static_assert(x != 0 && n != 0);
-	static_assert(std::is_same_v<decltype(x), decltype(n)>);
+inline _NODISCARD constexpr auto  Power_of_integer_nums() {
+	    static_assert(x != 0 && n!=0);
+	    static_assert(std::is_same_v<decltype(x), decltype(n)>);
+	   
 		if constexpr (x > 0 && n > 0) {
 			return MyStruct<true, true>::Power_v<x, n>;
 		}
@@ -84,7 +95,7 @@ inline _NODISCARD constexpr auto Power_of_integer_nums() {
 		else if constexpr (x < 0 && n>0) {
 			return MyStruct<false, true>::Power_v<x, n>;
 		}
-		else   {
+		else if constexpr(x<0 && n<0)  {
 			
 			return MyStruct<false, false>::Power_v<x, n>;
 		}
@@ -107,14 +118,14 @@ inline constexpr auto Abs_V = Abs<x>::value;
 //is prime for integers
 
 
-template<size_t x>
+template<std::size_t x>
 requires(x<1000)
 struct IsPrime {
-	template<size_t x, size_t d>
+	template<std::size_t x, std::size_t d>
 	struct DoIsPrime {
 		inline static constexpr bool value = x % d != 0 && DoIsPrime<x, d - 1>::value;
 	};
-	template<size_t x>
+	template<std::size_t x>
 	struct DoIsPrime<x, 2> {
 		inline static constexpr bool value = (x % 2 != 0);
 	};
@@ -142,7 +153,7 @@ template<>
 struct IsPrime<3> {
 	inline static constexpr bool value = true;
 };
-template<size_t x>
+template<std::size_t x>
 requires(x<1000)
 inline static constexpr bool IsPrime_V =IsPrime<x>::value;
 
@@ -181,9 +192,80 @@ struct Min<first, second> {
 	
 };
 
+class Array_Algorithms {
+private:
+	//dot product,esoteriko gin
+	template<typename t, std::size_t n, std::size_t n2>
+	struct dotproduct {
+		inline static t result(std::array<t, n>::const_iterator it1,
+			std::array<t, n>::const_iterator it2) {
+			
+			return *it1 * *it2 + dotproduct<t,n,n2-1>::result(it1+1,it2+1);
+		}
+	};
+	
+	template<typename t, std::size_t n>
+	struct dotproduct<t,n,0> {
+		inline static t result(std::array<t, n>::const_iterator it1,
+			std::array<t, n>::const_iterator it2) {
+			return t{};
+		}
+	};
+public:
+	template<typename t, std::size_t n>
+	requires(n>0 &&is_decimal_v<t> || is_integer_v<t>)
+	constexpr auto dodotproduct(const std::array<t, n>& x, const std::array<t, n>& y) {
+		return dotproduct<t, n, n>::result(x.cbegin(), y.cbegin());
+	}
+	
+};
+
+template<auto first,auto second,typename t=double>
+requires(is_decimal_v<t> &&std::is_arithmetic_v<decltype(first)> && 
+std::is_arithmetic_v<decltype(second)>)
+inline _NODISCARD constexpr bool Is_Equal(t epsilon=static_cast<t>(1.0E-8)) {
+	return Abs_V<first-second><epsilon;
+}
+
+template<auto x,auto n>
+requires(std::is_integral_v<decltype(x)>&& std::is_integral_v<decltype(n)> 
+&& std::is_same_v<decltype(x), decltype(n)> && n>=0)
+struct terms {
+	inline static constexpr double value = (1.0*Power_of_integer_nums<x,n>()/ Factorial_v<n>)+terms<x,n-1>::value;//x^n/n
 
 
+};
 
+template<auto x>
+requires(std::is_integral_v<decltype(x)>)
+struct terms<x,0> {
+	
+	inline static constexpr double value = 1.0;
+};
+template<auto x,auto iterations=20>
+requires(std::is_integral_v<decltype(x)> && 
+std::is_same_v<decltype(x),decltype(iterations)>)//iterations change with your own risk
+inline constexpr double Exp() {
+	return terms<x, iterations>::value;
+}
+
+
+template<auto n>
+requires(n>=0 && std::is_arithmetic_v<decltype(n)>)
+struct Finobacci {
+	inline static constexpr size_t value = Finobacci<n - 1>::value + Finobacci<n - 2>::value;
+};
+template<>
+struct Finobacci<1> {
+	inline static constexpr size_t value = 1;
+};
+template<>
+struct Finobacci<0> {
+	inline static constexpr size_t value = 0;
+};
+template<auto n>
+requires(n >= 0 && std::is_arithmetic_v<decltype(n)>)
+inline constexpr size_t Finobacci_V = Finobacci<n>::value;
 
 
 
