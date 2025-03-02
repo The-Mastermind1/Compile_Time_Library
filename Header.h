@@ -5,16 +5,17 @@
 #include<complex>
 #include<array>
 #include<vector>
+#include<iterator>
 _PANAGIOTIS_BEGIN
 
 
-inline constexpr int Floor(double x) {
-	int i = static_cast<int>(x);
+inline constexpr long long Floor(double x) {
+	long long i = static_cast<long long >(x);
 	return (x < i) ? (i - 1) : i;
 }
 
-inline constexpr int Ceil(double x) {
-	int i = static_cast<int>(x);
+inline constexpr long long Ceil(double x) {
+	long long i = static_cast<long long>(x);
 	return (x > i) ? (i + 1) : i;
 }
 
@@ -192,33 +193,37 @@ struct Min<first, second> {
 	
 };
 
-class Array_Algorithms {
-private:
-	//dot product,esoteriko gin
-	template<typename t, std::size_t n, std::size_t n2>
-	struct dotproduct {
-		inline static t result(std::array<t, n>::const_iterator it1,
-			std::array<t, n>::const_iterator it2) {
-			
-			return *it1 * *it2 + dotproduct<t,n,n2-1>::result(it1+1,it2+1);
-		}
-	};
-	
-	template<typename t, std::size_t n>
-	struct dotproduct<t,n,0> {
-		inline static t result(std::array<t, n>::const_iterator it1,
-			std::array<t, n>::const_iterator it2) {
-			return t{};
-		}
-	};
-public:
-	template<typename t, std::size_t n>
-	requires(n>0 &&is_decimal_v<t> || is_integer_v<t>)
-	constexpr auto dodotproduct(const std::array<t, n>& x, const std::array<t, n>& y) {
-		return dotproduct<t, n, n>::result(x.cbegin(), y.cbegin());
-	}
-	
-};
+//class Array_Algorithms {
+//private:
+//	//dot product,esoteriko gin gia array 
+//	template<typename t, std::size_t n, std::size_t n2>
+//	struct dotproduct {
+//		inline static t result(std::array<t, n>::const_iterator it1,
+//			std::array<t, n>::const_iterator it2) {
+//			
+//			return *it1 * *it2 + dotproduct<t,n,n2-1>::result(it1+1,it2+1);
+//		}
+//	};
+//	
+//	template<typename t, std::size_t n>
+//	struct dotproduct<t,n,0> {
+//		inline static t result(std::array<t, n>::const_iterator it1,
+//			std::array<t, n>::const_iterator it2) {
+//			return t{};
+//		}
+//	};
+//	
+//	
+//public:
+//	template<typename t, std::size_t n>
+//	requires(n>0 &&is_decimal_v<t> || is_integer_v<t>)
+//	std::array<t,n> dodotproduct(const std::array<t, n>& x, const std::array<t, n>& y) {
+//		return dotproduct<t, n, n>::result(x.cbegin(), y.cbegin());
+//	}
+//	
+//
+//	
+//};
 
 template<auto first,auto second,typename t=double>
 requires(is_decimal_v<t> &&std::is_arithmetic_v<decltype(first)> && 
@@ -270,6 +275,74 @@ inline constexpr size_t Finobacci_V = Finobacci<n>::value;
 inline constexpr std::size_t Str_Len(const char* str) {//works why ??
 	return (*str == '\0') ? 0 : 1 + Str_Len(str + 1);
 }
+
+
+class Array_Algorithms {
+public:
+	template<typename t,std::size_t n,typename _Ty>
+	requires(is_decimal_v<t>||is_integer_v<t>)
+	inline _NODISCARD _CONSTEXPR20 static t dotproduct( std::array<t,n>::const_iterator it1,
+		 std::array<t,n>::const_iterator it2,_Ty val){//explicitly specify the template args otherwise the compiler cant deduce them
+		static_assert(n > 0, "array_size must be >0");
+	   
+		for (size_t i = 0; i < n; i++) {//for loops are allowed for constexpr
+			val += *it1 + *it2;
+			it1++;
+			it2++;
+		}
+		return val;
+		
+	}
+	template<typename t, std::size_t n>
+	requires(is_decimal_v<t> || is_integer_v<t>)
+	inline _NODISCARD _CONSTEXPR20 static std::array<t,n> doaddition( std::array<t, n>::const_iterator it1,
+		 std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
+		static_assert(n > 0, "array_size must be >0");
+		std::array<t, n> result;
+		for (size_t i = 0; i < n; i++) {//for loops are allowed for constexpr
+			result[i] = *it1 + *it2;
+			it1++;
+			it2++;
+		}
+		return result;
+
+	}
+	template<typename t, std::size_t n>
+	requires(is_decimal_v<t> || is_integer_v<t>)
+	inline _NODISCARD _CONSTEXPR20 static std::array<t, n> dosubtraction( std::array<t, n>::const_iterator it1,
+		 std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
+		static_assert(n > 0, "array_size must be >0");
+		std::array<t, n> result;
+		for (size_t i = 0; i < n; i++) {
+		
+			result[i] = *it1 - *it2;
+			
+			it1++;
+			it2++;
+		}
+		return result;
+
+	}
+	template<typename t, std::size_t n>
+	requires(is_decimal_v<t> || is_integer_v<t>)
+	inline _NODISCARD static std::array<t, n> print1D_array(const std::array<t, n>& arr1){
+		static_assert(n > 0, "array_size must be >0");
+		std::cout << "Array Elements:\n";
+		for (size_t i = 0; i < n; i++) {
+
+			std::cout << arr1[i] << '\n';
+		}
+		return;
+
+	}
+};
+
+
+
+
+
+
+
 
 
 
