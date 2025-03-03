@@ -17,27 +17,27 @@
 _PANAGIOTIS_BEGIN
 template<typename _Ty>
 
-inline _CONSTEXPR bool is_decimal_v = std::disjunction_v<std::is_same<_Ty, float>, std::is_same<_Ty, double>, std::is_same<_Ty, long double>>;
+inline _CONSTEXPR bool Is_Decimal_v = std::disjunction_v<std::is_same<_Ty, float>, std::is_same<_Ty, double>, std::is_same<_Ty, long double>>;
 
 template<typename _Ty>
-struct is_decimal :std::bool_constant<is_decimal_v<_Ty>> {};//tag dispatching must support it
+struct Is_Decimal :std::bool_constant<Is_Decimal_v<_Ty>> {};//tag dispatching must support it
 
  template <class _Ty>
- _CONSTEXPR bool is_integer_v = std::_Is_any_of_v<_Ty, bool, char, signed char, unsigned char, wchar_t,
+ _CONSTEXPR bool Is_Integer_v = std::_Is_any_of_v<_Ty, bool, char, signed char, unsigned char, wchar_t,
 #ifdef __cpp_char8_t
     char8_t,
 #endif // defined(__cpp_char8_t)
     char16_t, char32_t, short, unsigned short, int, unsigned int, long, unsigned long, long long, unsigned long long>;
 
 template <class _Ty>
-struct is_integer : std::bool_constant<is_integer_v<_Ty>> {};
+struct Is_Integer : std::bool_constant<Is_Integer_v<_Ty>> {};
 
 template<bool condition1,bool condition2>
-struct MyStruct;
+struct My_Struct;
 
 
 template <>
-struct MyStruct<true,true> {
+struct My_Struct<true,true> {
 private:
     template<std::size_t x, std::size_t  n>
     struct Power {
@@ -55,7 +55,7 @@ public:
 
 // Specialization for false
 template <>
-struct MyStruct<false,true> {
+struct My_Struct<false,true> {
 private:
     template<long long x, std::size_t  n>
     struct Power {
@@ -71,7 +71,7 @@ public:
     static _CONSTEXPR long long Power_v = Power<x, n>::value;
 };
 template <>
-struct MyStruct<true,false> {
+struct My_Struct<true,false> {
 private:
     template<std::size_t x,long long  n>
     struct Power {
@@ -89,7 +89,7 @@ public:
 
 
 template <>
-struct MyStruct<false, false> {
+struct My_Struct<false, false> {
 private:
     template<long long x, long long  n>
     struct Power {
