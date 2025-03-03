@@ -10,7 +10,7 @@ using namespace panagiotis;
 int main() {
 	
 	
-	std::cout << Power_of_integer_nums<-2,2>();
+
 	
 	
 
