@@ -6,15 +6,16 @@
 #include<array>
 #include<vector>
 #include<iterator>
+#include<string_view>
 _PANAGIOTIS_BEGIN
 
 
-inline constexpr long long Floor(double x) {
+inline _CONSTEXPR long long Floor(double x) {
 	long long i = static_cast<long long >(x);
 	return (x < i) ? (i - 1) : i;
 }
 
-inline constexpr long long Ceil(double x) {
+inline _CONSTEXPR long long Ceil(double x) {
 	long long i = static_cast<long long>(x);
 	return (x > i) ? (i + 1) : i;
 }
@@ -25,19 +26,19 @@ inline constexpr long long Ceil(double x) {
 template<std::size_t n,std::size_t  l0=1,auto  h1=n>
 requires(n>1)
 struct Sqrt {
-	inline static constexpr auto mid = (l0 + h1+1) / 2;
+	inline static _CONSTEXPR auto mid = (l0 + h1+1) / 2;
 	using result = std::conditional_t < (mid* mid > n), Sqrt < n, l0 , mid-1 > , Sqrt<n,mid,h1 >> ;
-	inline static constexpr size_t  value = result::value;
+	inline static _CONSTEXPR size_t  value = result::value;
 };
 
 template<auto n,auto m>
 struct Sqrt<n, m, m> {
-	inline static constexpr size_t  value = m;
+	inline static _CONSTEXPR size_t  value = m;
 };
 
 template<size_t n, std::size_t l0 = 1, std::size_t h1 = n >
 requires(n > 1)
-inline constexpr auto Sqrt_v = Sqrt<n, l0, h1>::value;
+inline _CONSTEXPR auto Sqrt_v = Sqrt<n, l0, h1>::value;
 //sqrt for complexes
 template<typename t>
 requires(is_decimal_v<t>)
@@ -50,16 +51,16 @@ inline _NODISCARD std::complex<t> square_root_of_complex(const std::complex<t>& 
 template<std::size_t  n>
 requires( n<=65)
 struct Factorial {
-	inline static constexpr auto value = n * Factorial<n - 1>::value;
+	inline static _CONSTEXPR auto value = n * Factorial<n - 1>::value;
 };
 
 template<>
 struct Factorial<1> {
-	inline static constexpr auto value = 1;
+	inline static _CONSTEXPR auto value = 1;
 };
 template<>
 struct Factorial<0> {
-	inline static constexpr auto value = 1;
+	inline static _CONSTEXPR auto value = 1;
 };
 template<std::size_t n>
 requires(n >= 0 &&n<=65)
@@ -83,20 +84,20 @@ inline const  auto  Factorial_Decimal_V = Factorial_Decimal<n>::value;
 template<auto x,auto n>
 requires(std::is_integral_v<decltype(x)> &&
 std::is_integral_v<decltype(n)>)
-inline _NODISCARD constexpr auto  Power_of_integer_nums() {
+inline _NODISCARD _CONSTEXPR auto  Power_of_integer_nums() {
 	    static_assert(x != 0 && n!=0);
 	    static_assert(std::is_same_v<decltype(x), decltype(n)>);
 	   
-		if constexpr (x > 0 && n > 0) {
+		if _CONSTEXPR(x > 0 && n > 0) {
 			return MyStruct<true, true>::Power_v<x, n>;
 		}
-		else if constexpr (x > 0 && n < 0) {
+		else if _CONSTEXPR(x > 0 && n < 0) {
 			return MyStruct < true, false>::Power_v<x, n>;
 		}
-		else if constexpr (x < 0 && n>0) {
+		else if _CONSTEXPR(x < 0 && n>0) {
 			return MyStruct<false, true>::Power_v<x, n>;
 		}
-		else if constexpr(x<0 && n<0)  {
+		else if _CONSTEXPR(x<0 && n<0)  {
 			
 			return MyStruct<false, false>::Power_v<x, n>;
 		}
@@ -110,11 +111,11 @@ inline _NODISCARD constexpr auto  Power_of_integer_nums() {
 template<auto x>
 requires(std::is_arithmetic_v<decltype(x)>)
 struct Abs {
-	inline static constexpr auto value = (x  > 0) ? (x ) : (-x);
+	inline static _CONSTEXPR auto value = (x  > 0) ? (x ) : (-x);
 };
 template<auto x>
 requires(std::is_arithmetic_v<decltype(x)>)
-inline constexpr auto Abs_V = Abs<x>::value;
+inline _CONSTEXPR auto Abs_V = Abs<x>::value;
 
 //is prime for integers
 
@@ -124,15 +125,15 @@ requires(x<1000)
 struct IsPrime {
 	template<std::size_t x, std::size_t d>
 	struct DoIsPrime {
-		inline static constexpr bool value = x % d != 0 && DoIsPrime<x, d - 1>::value;
+		inline static _CONSTEXPR bool value = x % d != 0 && DoIsPrime<x, d - 1>::value;
 	};
 	template<std::size_t x>
 	struct DoIsPrime<x, 2> {
-		inline static constexpr bool value = (x % 2 != 0);
+		inline static _CONSTEXPR bool value = (x % 2 != 0);
 	};
 	
 public:
-	inline static constexpr bool value = DoIsPrime<x, x / 2>::value;
+	inline static _CONSTEXPR bool value = DoIsPrime<x, x / 2>::value;
 
 };
 
@@ -140,30 +141,30 @@ public:
 
 template<>
 struct IsPrime<0> {
-	inline static constexpr bool value = false;
+	inline static _CONSTEXPR bool value = false;
 };
 template<>
 struct IsPrime<1> {
-	inline static constexpr bool value = false;
+	inline static _CONSTEXPR bool value = false;
 };
 template<>
 struct IsPrime<2> {
-	inline static constexpr bool value = true;
+	inline static _CONSTEXPR bool value = true;
 };
 template<>
 struct IsPrime<3> {
-	inline static constexpr bool value = true;
+	inline static _CONSTEXPR bool value = true;
 };
 template<std::size_t x>
 requires(x<1000)
-inline static constexpr bool IsPrime_V =IsPrime<x>::value;
+inline static _CONSTEXPR bool IsPrime_V =IsPrime<x>::value;
 
 ////enforse same
 template<auto first,auto second,auto...rest>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Max {
 	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>);
-	inline static constexpr auto value =(first > second)?(Max<first, rest...>::value):(Max<second, rest...>::value);
+	inline static _CONSTEXPR auto value =(first > second)?(Max<first, rest...>::value):(Max<second, rest...>::value);
 };
 
 ////enforse same
@@ -172,14 +173,14 @@ template <auto first,auto second>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Max<first,second> {
 	static_assert(std::is_same_v<decltype(first), decltype(second)>);
-	inline static constexpr auto value =(first>second)?first:second;
+	inline static _CONSTEXPR auto value =(first>second)?first:second;
 };
 
 template<auto first, auto second, auto...rest>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Min {
 	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>);
-	inline static constexpr auto value = (first > second) ? (Min<second, rest...>::value) : (Min<first, rest...>::value);
+	inline static _CONSTEXPR auto value = (first > second) ? (Min<second, rest...>::value) : (Min<first, rest...>::value);
 };
 
 ////enforse same
@@ -189,7 +190,7 @@ requires(std::is_arithmetic_v<decltype(first)>)
 struct Min<first, second> {
 	
 	static_assert(std::is_same_v<decltype(first), decltype(second)>);
-	inline static constexpr auto value = (first > second) ? second :first;
+	inline static _CONSTEXPR auto value = (first > second) ? second :first;
 	
 };
 
@@ -228,7 +229,7 @@ struct Min<first, second> {
 template<auto first,auto second,typename t=double>
 requires(is_decimal_v<t> &&std::is_arithmetic_v<decltype(first)> && 
 std::is_arithmetic_v<decltype(second)>)
-inline _NODISCARD constexpr bool Is_Equal(t epsilon=static_cast<t>(1.0E-8)) {
+inline _NODISCARD _CONSTEXPR bool Is_Equal(t epsilon=static_cast<t>(1.0E-8)) {
 	return Abs_V<first-second><epsilon;
 }
 
@@ -236,7 +237,7 @@ template<auto x,auto n>
 requires(std::is_integral_v<decltype(x)>&& std::is_integral_v<decltype(n)> 
 && std::is_same_v<decltype(x), decltype(n)> && n>=0)
 struct terms {
-	inline static constexpr double value = (1.0*Power_of_integer_nums<x,n>()/ Factorial_v<n>)+terms<x,n-1>::value;//x^n/n
+	inline static _CONSTEXPR double value = (1.0*Power_of_integer_nums<x,n>()/ Factorial_v<n>)+terms<x,n-1>::value;//x^n/n
 
 
 };
@@ -245,12 +246,12 @@ template<auto x>
 requires(std::is_integral_v<decltype(x)>)
 struct terms<x,0> {
 	
-	inline static constexpr double value = 1.0;
+	inline static _CONSTEXPR double value = 1.0;
 };
 template<auto x,auto iterations=20>
 requires(std::is_integral_v<decltype(x)> && 
 std::is_same_v<decltype(x),decltype(iterations)>)//iterations change with your own risk
-inline constexpr double Exp() {
+inline _CONSTEXPR double Exp() {
 	return terms<x, iterations>::value;
 }
 
@@ -258,21 +259,21 @@ inline constexpr double Exp() {
 template<auto n>
 requires(n>=0 && std::is_arithmetic_v<decltype(n)>)
 struct Finobacci {
-	inline static constexpr size_t value = Finobacci<n - 1>::value + Finobacci<n - 2>::value;
+	inline static _CONSTEXPR size_t value = Finobacci<n - 1>::value + Finobacci<n - 2>::value;
 };
 template<>
 struct Finobacci<1> {
-	inline static constexpr size_t value = 1;
+	inline static _CONSTEXPR size_t value = 1;
 };
 template<>
 struct Finobacci<0> {
-	inline static constexpr size_t value = 0;
+	inline static _CONSTEXPR size_t value = 0;
 };
 template<auto n>
 requires(n >= 0 && std::is_arithmetic_v<decltype(n)>)
-inline constexpr size_t Finobacci_V = Finobacci<n>::value;
+inline _CONSTEXPR size_t Finobacci_V = Finobacci<n>::value;
 
-inline constexpr std::size_t Str_Len(const char* str) {//works why ??
+inline _CONSTEXPR std::size_t Str_Len(const char* str) {//works why ??
 	return (*str == '\0') ? 0 : 1 + Str_Len(str + 1);
 }
 
@@ -281,7 +282,7 @@ class Array_Algorithms {
 public:
 	template<typename t,std::size_t n,typename _Ty>
 	requires(is_decimal_v<t>||is_integer_v<t>)
-	inline _NODISCARD _CONSTEXPR20 static t dotproduct( std::array<t,n>::const_iterator it1,
+	inline _NODISCARD _CONSTEXPR static t dotproduct( std::array<t,n>::const_iterator it1,
 		 std::array<t,n>::const_iterator it2,_Ty val){//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 	   
@@ -295,7 +296,7 @@ public:
 	}
 	template<typename t, std::size_t n>
 	requires(is_decimal_v<t> || is_integer_v<t>)
-	inline _NODISCARD _CONSTEXPR20 static std::array<t,n> doaddition( std::array<t, n>::const_iterator it1,
+	inline _NODISCARD _CONSTEXPR static std::array<t,n> doaddition( std::array<t, n>::const_iterator it1,
 		 std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 		std::array<t, n> result;
@@ -309,7 +310,7 @@ public:
 	}
 	template<typename t, std::size_t n>
 	requires(is_decimal_v<t> || is_integer_v<t>)
-	inline _NODISCARD _CONSTEXPR20 static std::array<t, n> dosubtraction( std::array<t, n>::const_iterator it1,
+	inline _NODISCARD _CONSTEXPR static std::array<t, n> dosubtraction( std::array<t, n>::const_iterator it1,
 		 std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 		std::array<t, n> result;
@@ -337,25 +338,29 @@ public:
 	}
 };
 
+template <typename T>
+_CONSTEXPR std::string_view type_name() {
+#ifdef __clang__
+	return __PRETTY_FUNCTION__;
+#elif defined(__GNUC__)
+	return __PRETTY_FUNCTION__;
+#elif defined(_MSC_VER)
+	return __FUNCSIG__;
+#else
+	return "Unknown Compiler";
+#endif
+}
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+template<std::size_t N>
+inline _NODISCARD _CONSTEXPR std::array<char, N> make_reversed_string(const char(&str)[N]) {
+	std::array<char, N> reversed = {};  // Create an array of fixed size
+	for (std::size_t i = 0; i < N - 1; ++i) {
+		reversed[i] = str[N - 2 - i];  // Reverse the string
+	}
+	reversed[N - 1] = '\0';  // Null-terminate
+	
+	return reversed;
+}
 
 
 _PANAGIOTIS_END
