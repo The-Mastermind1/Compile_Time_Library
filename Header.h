@@ -39,7 +39,7 @@ inline _NODISCARD std::complex<t> square_root_of_complex(const std::complex<t>& 
 }
 //sqrt complete 
 
-//factorial for integers
+
 
 
 
