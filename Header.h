@@ -382,6 +382,13 @@ template<typename t>
 inline static _CONSTEXPR std::size_t Dimensions_v = Dimensions<t>::value;
 
 
+inline _NODISCARD _CONSTEXPR  std::size_t Binary_To_Decimal(const char* bin, std::size_t value = 0) {//the passed str must contain only digits  
+	
+	return (*bin>= '0' && *bin <= '1') ? Binary_To_Decimal(bin + 1, value * (std::size_t)2 + (std::size_t)(*bin - '0')) : value;
+
+}
+
+
 
 
 
