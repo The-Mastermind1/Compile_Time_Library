@@ -1,23 +1,18 @@
 #include"Header.h"
 #include <iostream>
 #include <numeric>
-
+#include<tuple>
 using namespace panagiotis;
 
 
 
 
 int main() {
-	      // Prints type name with the compiler's internal representation
-       
-        
-    constexpr auto reversed = make_reversed_string("compile");
+	constexpr static char a[] = "18446744073709551615";
+	constexpr size_t b = Parse_Integer(a);
+	std::cout << b << '\n';
+	
 
-         for (char c : reversed) {
-             std::cout << c;
-         }
-          std::cout << '\n';  // Output: elipmoc
-       
 	 
 	
 }
