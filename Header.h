@@ -10,15 +10,7 @@
 _PANAGIOTIS_BEGIN
 
 
-inline _CONSTEXPR long long Floor(double x) {
-	long long i = static_cast<long long >(x);
-	return (x < i) ? (i - 1) : i;
-}
 
-inline _CONSTEXPR long long Ceil(double x) {
-	long long i = static_cast<long long>(x);
-	return (x > i) ? (i + 1) : i;
-}
 
 
 
@@ -48,23 +40,7 @@ inline _NODISCARD std::complex<t> square_root_of_complex(const std::complex<t>& 
 //sqrt complete 
 
 //factorial for integers
-template<std::size_t  n>
-requires( n<=65)
-struct Factorial {
-	inline static _CONSTEXPR auto value = n * Factorial<n - 1>::value;
-};
 
-template<>
-struct Factorial<1> {
-	inline static _CONSTEXPR auto value = 1;
-};
-template<>
-struct Factorial<0> {
-	inline static _CONSTEXPR auto value = 1;
-};
-template<std::size_t n>
-requires(n >= 0 &&n<=65)
-inline constexpr auto Factorial_v = Factorial<n>::value;
 
 
 
@@ -237,7 +213,7 @@ template<auto x,auto n>
 requires(std::is_integral_v<decltype(x)>&& std::is_integral_v<decltype(n)> 
 && std::is_same_v<decltype(x), decltype(n)> && n>=0)
 struct terms {
-	inline static _CONSTEXPR double value = (1.0*Power_of_integer_nums<x,n>()/ Factorial_v<n>)+terms<x,n-1>::value;//x^n/n
+	inline static _CONSTEXPR double value = (1.0*Power_of_integer_nums<x,n>()/ Factorial<n>())+terms<x,n-1>::value;//x^n/n
 
 
 };
@@ -353,13 +329,39 @@ _CONSTEXPR std::string_view type_name() {
 
 template<std::size_t N>
 inline _NODISCARD _CONSTEXPR std::array<char, N> make_reversed_string(const char(&str)[N]) {
-	std::array<char, N> reversed = {};  // Create an array of fixed size
+	
+	std::array<char, N> reversed = {}; // Create an array of fixed size
+	
 	for (std::size_t i = 0; i < N - 1; ++i) {
 		reversed[i] = str[N - 2 - i];  // Reverse the string
 	}
 	reversed[N - 1] = '\0';  // Null-terminate
 	
 	return reversed;
+}
+template<std::size_t N>
+requires(N<=65)
+inline _NODISCARD _CONSTEXPR std::size_t Factorial() {
+	if constexpr (N == 0) {
+		return 1;
+	}
+	else if constexpr (N == 1) {
+		return 1;
+
+	}
+	else {
+		std::size_t val = 1;
+		for (std::size_t i = 1; i <= N;i++) {
+			
+			val = val * i;
+		}
+		return val;
+	}
+}
+
+inline _NODISCARD _CONSTEXPR  std::size_t Parse_Integer(const char* str, std::size_t value = 0) {//the passed str must contain only digits  
+	return (*str >= '0' && *str <= '9') ? Parse_Integer(str + 1, value *(std::size_t)10 +(size_t)(*str - '0')) : value;
+	
 }
 
 
