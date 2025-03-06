@@ -6,6 +6,7 @@
 #include<array>
 #include<vector>
 #include<iterator>
+#include<utility>
 #include<string_view>
 _PANAGIOTIS_BEGIN
 
@@ -415,6 +416,19 @@ inline _NODISCARD _CONSTEXPR  std::size_t Binary_To_Decimal(const char* bin, std
 	
 	return (*bin>= '0' && *bin <= '1') ? Binary_To_Decimal(bin + 1, value * (std::size_t)2 + (std::size_t)(*bin - '0')) : value;
 
+}
+template<bool condition,typename t,typename u>
+inline _CONSTEXPR auto If_Then_Else(t&& value1,u&& value2)noexcept
+{
+	//different if to avoid reference collapsing rules
+	if constexpr (condition) {
+		
+		return std::forward<t>(value1);
+	}
+	if constexpr (!condition) {
+		return std::forward<u>(value2);
+	}
+	
 }
 
 
