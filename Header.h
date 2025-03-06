@@ -140,33 +140,35 @@ inline static _CONSTEXPR bool Is_Prime_v =Is_Prime<x>::value;
 template<auto first,auto second,auto...rest>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Max {
-	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>);
+	//enforse same
+	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>, "all types provided must be the same ");
 	inline static _CONSTEXPR auto value =(first > second)?(Max<first, rest...>::value):(Max<second, rest...>::value);
 };
 
-////enforse same
+
 //MAX
 template <auto first,auto second>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Max<first,second> {
-	static_assert(std::is_same_v<decltype(first), decltype(second)>);
+	
+	static_assert(std::is_same_v<decltype(first), decltype(second)> , "all types provided must be the same ");
 	inline static _CONSTEXPR auto value =(first>second)?first:second;
 };
 
 template<auto first, auto second, auto...rest>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Min {
-	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>);
+	//enforse same
+	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>,"all types provided must be the same ");
 	inline static _CONSTEXPR auto value = (first > second) ? (Min<second, rest...>::value) : (Min<first, rest...>::value);
 };
 
-////enforse same
 //Min
 template <auto first, auto second>
 requires(std::is_arithmetic_v<decltype(first)>)
 struct Min<first, second> {
 	
-	static_assert(std::is_same_v<decltype(first), decltype(second)>);
+	static_assert(std::is_same_v<decltype(first), decltype(second)>, "all types provided must be the same ");
 	inline static _CONSTEXPR auto value = (first > second) ? second :first;
 	
 };
