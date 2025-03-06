@@ -260,10 +260,10 @@ public:
 	template<typename _Ty, std::size_t n, std::size_t m>
 	struct Is_NxN :std::false_type
 	{
-		inline _CONSTEXPR Is_NxN(const std::array<std::array<_Ty, n>, m>& arr)noexcept {
+		_CONSTEXPR Is_NxN(const std::array<std::array<_Ty, n>, m>& arr)noexcept {
 
 		}
-		inline _CONSTEXPR Is_NxN(const _Ty(&)[n][m])noexcept {
+		_CONSTEXPR Is_NxN(const _Ty(&)[n][m])noexcept {
 
 		}
 
@@ -271,10 +271,10 @@ public:
 	template<typename _Ty, std::size_t n>
 	struct Is_NxN<_Ty, n, n> : std::true_type
 	{
-		inline _CONSTEXPR  Is_NxN(const std::array<std::array<_Ty, n>, n>&)noexcept {
+		_CONSTEXPR  Is_NxN(const std::array<std::array<_Ty, n>, n>&)noexcept {
 
 		}
-		inline _CONSTEXPR Is_NxN(const _Ty(&)[n][n])noexcept {
+		_CONSTEXPR Is_NxN(const _Ty(&)[n][n])noexcept {
 
 		}
 	};
