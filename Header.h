@@ -432,6 +432,18 @@ inline _CONSTEXPR auto If_Then_Else(t&& value1,u&& value2)noexcept
 }
 
 
+template<typename t,typename...types>
+struct Type_Index;
+
+template<typename t,typename first,typename...rest>
+struct  Type_Index<t, first, rest...> {
+	inline _CONSTEXPR static size_t value = std::is_same_v<t, first> ? 0 : 1 + Type_Index<t, rest...>::value;
+};
+template<typename t>
+struct  Type_Index<t> {
+
+	inline _CONSTEXPR static size_t value = 0;
+};
 
 
 
