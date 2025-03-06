@@ -441,10 +441,21 @@ struct  Type_Index<t, first, rest...> {
 };
 template<typename t>
 struct  Type_Index<t> {
-
 	inline _CONSTEXPR static size_t value = 0;
 };
 
+
+template<typename t,typename =void>
+struct Has_Size:std::false_type
+{
+
+};
+template<typename t>
+struct Has_Size<t, std::void_t<decltype(std::declval<t>().size())>> :std::true_type {
+
+};
+template<typename t,typename=void>
+inline static _CONSTEXPR bool Has_Size_V = Has_Size<t>::value;
 
 
 _PANAGIOTIS_END
