@@ -257,6 +257,33 @@ inline _CONSTEXPR std::size_t Str_Len(const char* str) {//works why ??
 
 class Array_Algorithms {
 public:
+	template<typename _Ty, std::size_t n, std::size_t m>
+	struct Is_NxN :std::false_type
+	{
+		inline _CONSTEXPR Is_NxN(const std::array<std::array<_Ty, n>, m>& arr)noexcept {
+
+		}
+		inline _CONSTEXPR Is_NxN(const _Ty(&)[n][m])noexcept {
+
+		}
+
+	};
+	template<typename _Ty, std::size_t n>
+	struct Is_NxN<_Ty, n, n> : std::true_type
+	{
+		inline _CONSTEXPR  Is_NxN(const std::array<std::array<_Ty, n>, n>&)noexcept {
+
+		}
+		inline _CONSTEXPR Is_NxN(const _Ty(&)[n][n])noexcept {
+
+		}
+	};
+	
+
+	
+
+	
+
 	template<typename t,std::size_t n,typename _Ty>
 	requires(Is_Decimal_v<t>||Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static t dotproduct( std::array<t,n>::const_iterator it1,
@@ -288,7 +315,7 @@ public:
 	template<typename t, std::size_t n>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static std::array<t, n> dosubtraction( std::array<t, n>::const_iterator it1,
-		 std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
+		std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 		std::array<t, n> result;
 		for (size_t i = 0; i < n; i++) {
@@ -329,7 +356,7 @@ _CONSTEXPR std::string_view Type_Name() {
 }
 
 template<std::size_t N>
-inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(const char(&str)[N]) {
+inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(const char(&str)[N])noexcept {
 	
 	std::array<char, N> reversed = {}; // Create an array of fixed size
 	
@@ -342,7 +369,7 @@ inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(const char
 }
 template<std::size_t N>
 requires(N<=65)
-inline _NODISCARD _CONSTEXPR std::size_t Factorial() {
+inline _NODISCARD _CONSTEXPR std::size_t Factorial() noexcept{
 	if constexpr (N == 0) {
 		return 1;
 	}
@@ -360,7 +387,7 @@ inline _NODISCARD _CONSTEXPR std::size_t Factorial() {
 	}
 }
 
-inline _NODISCARD _CONSTEXPR  std::size_t Parse_Integer(const char* str, std::size_t value = 0) {//the passed str must contain only digits  
+inline _NODISCARD _CONSTEXPR  std::size_t Parse_Integer(const char* str, std::size_t value = 0)noexcept {//the passed str must contain only digits  
 	return (*str >= '0' && *str <= '9') ? Parse_Integer(str + 1, value *(std::size_t)10 +(std::size_t)(*str - '0')) : value;
 	
 }
