@@ -418,7 +418,7 @@ inline _NODISCARD _CONSTEXPR  std::size_t Binary_To_Decimal(const char* bin, std
 
 }
 template<bool condition,typename t,typename u>
-inline _CONSTEXPR decltype(auto) If_Then_Else(t&& value1,u&& value2)noexcept
+inline _CONSTEXPR auto If_Then_Else(t&& value1,u&& value2)noexcept
 {
 	//different if to avoid reference collapsing rules
 	if constexpr (condition) {
