@@ -460,8 +460,12 @@ inline static _CONSTEXPR bool Has_Size_V = Has_Size<t>::value;
 
 template<typename ...types>
 struct Largest_Type;
+
+
+
 template<typename first,typename second,typename...rest>
 struct Largest_Type<first,second, rest...> {
+	static_assert(Supports_Sizeof_V<first>&& Supports_Sizeof_V<second>&&( Supports_Sizeof_V<rest>&&...),"all types must support sizeof operator ,no incomplete types allowed");
 	template<typename T>
 	struct Identity { using Type = T; };
 
@@ -473,12 +477,29 @@ struct Largest_Type<first,second, rest...> {
 };
 template<typename first, typename  second>
 struct Largest_Type<first,second> {
+	static_assert(Supports_Sizeof_V<first>&& Supports_Sizeof_V<second>, "all types must support sizeof operator ,no incomplete types allowed");
 	using Type = std::conditional_t<(sizeof(first) > sizeof(second)), first, second>;
 };
 template<typename first>
 struct Largest_Type<first> {
+	static_assert(Supports_Sizeof_V<first>, "all types must support sizeof operator ,no incomplete types allowed");
 	using Type = first;
 };
+
+template<typename t,typename =void>
+struct Supports_Sizeof :std::false_type
+{
+
+};
+template<typename t>
+struct Supports_Sizeof <t,std::void_t<decltype(sizeof(t))>>:std::true_type
+{
+
+};
+
+template<typename t,typename =void>
+inline static _CONSTEXPR bool Supports_Sizeof_V = Supports_Sizeof<t>::value;
+
 
 
 
