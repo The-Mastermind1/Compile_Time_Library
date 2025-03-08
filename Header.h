@@ -462,7 +462,7 @@ template<typename ...types>
 struct Largest_Type;
 template<typename first,typename second,typename...rest>
 struct Largest_Type<first,second, rest...> {
-	using Type = std::conditional_t<(sizeof(first) > sizeof(second)), typename  Largest_Type<first, rest...>::Type, typename Largest_Type<second, rest...>::Type>;
+	using Type = std::conditional_t<(sizeof(first) > sizeof(second)),  Largest_Type<first, rest...>, Largest_Type<second, rest...>>::Type;
 };
 template<typename first, typename  second>
 struct Largest_Type<first,second> {
