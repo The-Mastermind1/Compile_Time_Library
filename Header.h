@@ -409,7 +409,7 @@ struct Dimensions<t[]> {
 };
 
 template<typename t>
-inline static _CONSTEXPR std::size_t Dimensions_v = Dimensions<t>::value;
+inline static _CONSTEXPR std::size_t Dimensions_V = Dimensions<t>::value;
 
 
 inline _NODISCARD _CONSTEXPR  std::size_t Binary_To_Decimal(const char* bin, std::size_t value = 0) {//the passed str must contain only digits  
@@ -456,6 +456,23 @@ struct Has_Size<t, std::void_t<decltype(std::declval<t>().size())>> :std::true_t
 };
 template<typename t,typename=void>
 inline static _CONSTEXPR bool Has_Size_V = Has_Size<t>::value;
+
+
+template<typename ...types>
+struct Largest_Type;
+template<typename first,typename second,typename...rest>
+struct Largest_Type<first,second, rest...> {
+	using Type = std::conditional_t<(sizeof(first) > sizeof(second)), typename  Largest_Type<first, rest...>::Type, typename Largest_Type<second, rest...>::Type>;
+};
+template<typename first, typename  second>
+struct Largest_Type<first,second> {
+	using Type = std::conditional_t<(sizeof(first) > sizeof(second)), first, second>;
+};
+template<typename first>
+struct Largest_Type<first> {
+	using Type = first;
+};
+
 
 
 _PANAGIOTIS_END
