@@ -16,7 +16,7 @@ _PANAGIOTIS_BEGIN
 
 
 //sqrt for integers
-template<std::size_t n,std::size_t  l0=1,auto  h1=n>
+template<std::size_t n,std::size_t  l0=1,std::size_t  h1=n>
 requires(n>1)
 struct Sqrt {
 	inline static _CONSTEXPR auto mid = (l0 + h1+1) / 2;
@@ -24,7 +24,7 @@ struct Sqrt {
 	inline static _CONSTEXPR std::size_t  value = result::value;
 };
 
-template<auto n,auto m>
+template<std::size_t n,std::size_t m>
 struct Sqrt<n, m, m> {
 	inline static _CONSTEXPR std::size_t  value = m;
 };
@@ -260,9 +260,11 @@ inline _CONSTEXPR std::size_t Str_Len(const char* str) {//works why ??
 
 class Array_Algorithms {
 public:
+	
 	template<typename _Ty, std::size_t n, std::size_t m>
 	struct Is_NxN :std::false_type
 	{
+		static_assert(Supports_Sizeof_V<_Ty>, "incomplete types are not allowed");
 		_CONSTEXPR Is_NxN(const std::array<std::array<_Ty, n>, m>& arr)noexcept {
 
 		}
@@ -274,6 +276,7 @@ public:
 	template<typename _Ty, std::size_t n>
 	struct Is_NxN<_Ty, n, n> : std::true_type
 	{
+		static_assert(Supports_Sizeof_V<_Ty>, "incomplete types are not allowed");
 		_CONSTEXPR  Is_NxN(const std::array<std::array<_Ty, n>, n>&)noexcept {
 
 		}
@@ -290,7 +293,7 @@ public:
 	template<typename t,std::size_t n,typename _Ty>
 	requires(Is_Decimal_v<t>||Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static t dotproduct( std::array<t,n>::const_iterator it1,
-		 std::array<t,n>::const_iterator it2,_Ty val){//explicitly specify the template args otherwise the compiler cant deduce them
+		 std::array<t,n>::const_iterator it2,_Ty val)noexcept{//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 	   
 		for (size_t i = 0; i < n; i++) {//for loops are allowed for constexpr
@@ -304,7 +307,7 @@ public:
 	template<typename t, std::size_t n>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static std::array<t,n> doaddition(std::array<t, n>::const_iterator it1,
-		 std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
+		 std::array<t, n>::const_iterator it2)noexcept {//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 		std::array<t, n> result;
 		for (size_t i = 0; i < n; i++) {//for loops are allowed for constexpr
@@ -318,7 +321,7 @@ public:
 	template<typename t, std::size_t n>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static std::array<t, n> dosubtraction( std::array<t, n>::const_iterator it1,
-		std::array<t, n>::const_iterator it2) {//explicitly specify the template args otherwise the compiler cant deduce them
+		std::array<t, n>::const_iterator it2)noexcept {//explicitly specify the template args otherwise the compiler cant deduce them
 		static_assert(n > 0, "array_size must be >0");
 		std::array<t, n> result;
 		for (size_t i = 0; i < n; i++) {
