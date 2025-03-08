@@ -7,7 +7,7 @@ using namespace panagiotis;
 
 
 int main() {
-	std::cout<<Min<5, 6, 7, 0>::value;
+	std::cout<<typeid(Largest_Type<double,float,int,long double>::Type).name();
 	
 
 	
