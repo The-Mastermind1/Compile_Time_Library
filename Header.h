@@ -195,15 +195,15 @@ struct Terms<x, 0> {
 	inline static _CONSTEXPR double value = 1.0;
 };
 template<auto x, auto iterations = 20>
-	requires(std::is_integral_v<decltype(x)>&&
+requires(std::is_integral_v<decltype(x)>&&
 std::is_same_v<decltype(x), decltype(iterations)>)//iterations change with your own risk
 inline _CONSTEXPR double Exp() {
 	return Terms<x, iterations>::value;
 }
 
-
-template<auto n>
-	requires(n >= 0 && std::is_arithmetic_v<decltype(n)>)
+//this struct takes a number and returns the fibonaci secuence at compile time  
+//this it used template reqursive instantiation 
+template<size_t n>
 struct Finobacci {
 	inline static _CONSTEXPR size_t value = Finobacci<n - 1>::value + Finobacci<n - 2>::value;
 };
@@ -216,9 +216,11 @@ struct Finobacci<0> {
 	inline static _CONSTEXPR size_t value = 0;
 };
 template<auto n>
-	requires(n >= 0 && std::is_arithmetic_v<decltype(n)>)
+requires(n >= 0 && std::is_arithmetic_v<decltype(n)>)
 inline _CONSTEXPR size_t Finobacci_v = Finobacci<n>::value;
 
+//this funct takes a string and give the length of it 
+//can be used at compile time 
 inline _CONSTEXPR std::size_t Str_Len(const char* str) {//works why ??
 	return (*str == '\0') ? 0 : 1 + Str_Len(str + 1);
 }
@@ -226,7 +228,9 @@ inline _CONSTEXPR std::size_t Str_Len(const char* str) {//works why ??
 
 class Array_Algorithms {
 public:
-
+	//the struct takes from the constructors matrixes to deduce the template params 
+	//to tell if the array is a matrix 
+	//the types you pass as _Ty must support sizeof dont give incomplete types 
 	template<typename _Ty, std::size_t n, std::size_t m>
 	struct Is_NxN :std::false_type
 	{
@@ -255,7 +259,9 @@ public:
 
 
 
-
+	//this func takes to array and make the product between them
+	//and gives an array as a result
+	//can be used at compile time
 	template<typename t, std::size_t n, typename _Ty>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static t dotproduct(std::array<t, n>::const_iterator it1,
@@ -270,6 +276,9 @@ public:
 		return val;
 
 	}
+	//this func takes to array and make the addition between them
+	//and gives an array as a result
+	//can be used at compile time
 	template<typename t, std::size_t n>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static std::array<t, n> doaddition(std::array<t, n>::const_iterator it1,
@@ -284,6 +293,9 @@ public:
 		return result;
 
 	}
+	//this func takes to array and make the substraction between them
+	//and gives an array as a result
+	//can be used at compile time
 	template<typename t, std::size_t n>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static std::array<t, n> dosubtraction(std::array<t, n>::const_iterator it1,
@@ -300,6 +312,7 @@ public:
 		return result;
 
 	}
+	//simply print the contents of the array this func
 	template<typename t, std::size_t n>
 	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD static std::array<t, n> print1D_array(const std::array<t, n>& arr1) {
@@ -314,8 +327,10 @@ public:
 	}
 };
 
+//this func gives the name of the type you passed
+//can be used at compile time
 template <typename T>
-inline _CONSTEXPR std::string_view Type_Name() {
+inline _NODISCARD std::string_view Type_Name() {
 #ifdef __clang__
 	return __PRETTY_FUNCTION__;
 #elif defined(__GNUC__)
@@ -327,6 +342,9 @@ inline _CONSTEXPR std::string_view Type_Name() {
 #endif
 }
 
+//This func simply takes a string and reversed it 
+//and simply returns and array with contents of the underlying string reversed
+//can be used at compile times
 template<std::size_t N>
 inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(const char(&str)[N])noexcept {
 
@@ -339,6 +357,11 @@ inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(const char
 
 	return reversed;
 }
+
+//this is a factorial func 
+//it simply gives the factorial of an unsigned int 
+//requires N<=65
+//can be used at compile time
 template<std::size_t N>
 requires(N <= 65)
 inline _NODISCARD _CONSTEXPR std::size_t Factorial() noexcept {
@@ -359,11 +382,16 @@ inline _NODISCARD _CONSTEXPR std::size_t Factorial() noexcept {
 	}
 }
 
+//this takes a string with digits and returns the integer 
+//if you put wrong string inside it will simply stop and return the value 
+//that manage to calculate 
 inline _NODISCARD _CONSTEXPR  std::size_t Parse_Integer(const char* str, std::size_t value = 0)noexcept {//the passed str must contain only digits  
 	return (*str >= '0' && *str <= '9') ? Parse_Integer(str + 1, value * (std::size_t)10 + (std::size_t)(*str - '0')) : value;
 
 }
 
+//this structs takes a type t and tells how many dimensions does it have
+//for int[5][5] it gives 2 for int [3][4][5] it gives 3 for int it gives 0
 template<typename t>
 struct Dimensions {
 	inline static _CONSTEXPR std::size_t value = 0;
@@ -380,14 +408,18 @@ struct Dimensions<t[]> {
 template<typename t>
 inline static _CONSTEXPR std::size_t Dimensions_V = Dimensions<t>::value;
 
-
+//this converts a binary string to decimal 
 inline _NODISCARD _CONSTEXPR  std::size_t Binary_To_Decimal(const char* bin, std::size_t value = 0) {//the passed str must contain only digits  
 
 	return (*bin >= '0' && *bin <= '1') ? Binary_To_Decimal(bin + 1, value * (std::size_t)2 + (std::size_t)(*bin - '0')) : value;
 
 }
+//in the standard there is the std::conditional_t type 
+// that based on a condition gives types 
+//i wanted to make this for values while having a condition
+//used perfect forwarding this func and univesal references this func
 template<bool condition, typename t, typename u>
-inline _CONSTEXPR auto If_Then_Else(t&& value1, u&& value2)noexcept
+inline _NODISCARD _CONSTEXPR auto If_Then_Else(t&& value1, u&& value2)noexcept
 {
 	//different if to avoid reference collapsing rules
 	if constexpr (condition) {
@@ -400,7 +432,11 @@ inline _CONSTEXPR auto If_Then_Else(t&& value1, u&& value2)noexcept
 
 }
 
-
+//this is a struct that take types and 
+//takes a t a first and rest types 
+//and pretty much tells in which index the type t you are looking for
+//is like Type_Index<int,double,float,int> gives 2 for result 
+//is the underlying type is not there it gives an index out of range of the types
 template<typename t, typename...types>
 struct Type_Index;
 
@@ -413,7 +449,8 @@ struct  Type_Index<t> {
 	inline _CONSTEXPR static size_t value = 0;
 };
 
-
+//this template uses the SFINAE context to 
+//check if the type has a .size() method 
 template<typename t, typename = void>
 struct Has_Size :std::false_type {};
 template<typename t>
@@ -426,13 +463,16 @@ template<typename T>
 struct Identity { using Type = T; };
 
 //better void_t
+//just a better void_t because with the void_t of the standard 
+//the is a problem because its a type alias and you can overload template parameters when you use this 
 template<typename _Ty, typename...>
 struct first :Identity<_Ty> {};
 template<typename ...types>
 using Void_t = typename first<void, types...>::Type;
 
 
-
+//this is a struct that used the SFINAE context to check if for the following types
+//you can aply size of 
 template<typename t, typename = void>
 struct Supports_Sizeof :std::false_type {};
 template<typename t>
@@ -475,37 +515,48 @@ struct Largest_Type<first> {
 	using Type = first;
 };
 
+//takes to C-strings and checks if they are the same
+//,the C-strings must have the same length 
+//can be used at compile time
 template<std::size_t N>
-inline constexpr bool Is_Equal_Strings(const char(&str1)[N], const char(&str2)[N]) {
+inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
+	, const char(&str2)[N]) {//func begin
 	for (size_t i = 0; i < N; i++) {
-		if constexpr (str1[i] != str2[i]) {
+		if  (str1[i] != str2[i]) {
 			return false;
 		}
-	}
+	}//for loop that checks if they are the same 
 	return true;
-}
+}//func end
 
+
+//Is_Palindrome takes a const char (&str)[N] and check if the C-string inside is a palidrome
+//compile-time func 
 template<std::size_t N>
-inline _CONSTEXPR bool Is_Palindrome(const char (&str)[N]) {
+inline _NODISCARD _CONSTEXPR bool Is_Palindrome(const char (&str)[N])noexcept 
+{//func begin
 	static_assert(N > 1, "N should be >1");
+	//if N==1 the C-string is "" so doesnt make any sense for an arg
 	if (N == 2)return true;
+	//if N==2 the C-string is 2 1 char of course it is palidrome
 	std::array<char, N-1>result1{};
 	std::array<char, N-1>result2{};
+	
 	for (std::size_t i = 0; i < N-1; i++) {
 		result1[i] = str[i];
 	
-	}
+	}//initialize an array with the string
+
 	std::size_t j = 0;
+
 	for (std::size_t i = N-2; i>0; i--) {
 		result2[j] = str[i];
 		j++;
-	}
+	}//initialize a second array with the string reversed
 	result2[j] = str[0];
-	/*if (static_cast<int>(N - 2) < 0) {
-		return true;
-	}*/
-
+	
 	if(static_cast<int>(N-2)>=0) {
+		//checks if this two arrays have the same contents
 		for (std::size_t i = 0; i < N - 2; i++) {
 
 			if (result1[i] != result2[i]) {
@@ -514,13 +565,6 @@ inline _CONSTEXPR bool Is_Palindrome(const char (&str)[N]) {
 		}
 	}
 	return true;
-	
-	
-	
-	
-	
-}
-
-
+}//func end 
 
 _PANAGIOTIS_END
