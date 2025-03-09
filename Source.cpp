@@ -5,16 +5,13 @@
 #include<variant>
 #include<bitset>
 using namespace panagiotis;
-struct a ;
 
-void kati(a(&n)[5][6]) {
-
-}
 int main() {
-
-	//int a[5][5];
-	//std::is_array_v<int[5][5]>;
-	Array_Algorithms::Is_NxN<a, 5, 5>::value;
-	//Is_Prime_v<"pateras">;
 	
+     constexpr bool value=Is_Palindrome("10");
+	 std::size_t n = 2;
+	 
+	 //std::cout << value << '\n';
+	 //std::size_t n = 5;
+	 //std::cout<<(n - 6);
 }
