@@ -4,6 +4,7 @@
 #include<utility>
 #include<exception>
 #include<cmath>
+
 #define _NODISCARD [[nodiscard]]
 
 #define _PANAGIOTIS_BEGIN namespace panagiotis{
@@ -15,6 +16,8 @@
 
 
 _PANAGIOTIS_BEGIN
+//helper type traits 
+//BEGIN
 template<typename _Ty>
 
 inline _CONSTEXPR bool Is_Decimal_v = std::disjunction_v<std::is_same<_Ty, float>, std::is_same<_Ty, double>, std::is_same<_Ty, long double>>;
@@ -32,6 +35,10 @@ struct Is_Decimal :std::bool_constant<Is_Decimal_v<_Ty>> {};//tag dispatching mu
 template <class _Ty>
 struct Is_Integer : std::bool_constant<Is_Integer_v<_Ty>> {};
 
+//END 
+//HELPER STRUCT IN ORDER TO HELP WITH THE POWER OF INTEGERS FUNC 
+//COULDN'T FIND A BETTER WAY TO IMPLEMENT IT 
+//BEGIN
 template<bool condition1,bool condition2>
 struct My_Struct;
 
@@ -103,15 +110,13 @@ public:
     template<long long x, long long n>
     static _CONSTEXPR double Power_v =1.0/Power<x, -n>::value;
 };
-
-
-
+//END
 
 
 
 
 // Custom exception class
-class _INVALID_INPUT : public std::exception {
+class _INVALID_INPUT : public std::exception {//custom exception
 private:
     std::string message;
 public:
