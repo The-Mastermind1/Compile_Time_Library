@@ -450,7 +450,7 @@ inline _NODISCARD _CONSTEXPR  std::size_t Binary_To_Decimal(const char* bin, std
 //i wanted to make this for values while having a condition
 //used perfect forwarding this func and univesal references this func
 template<bool condition, typename t, typename u>
-inline _NODISCARD _CONSTEXPR auto If_Then_Else(t&& value1, u&& value2)noexcept
+inline _NODISCARD _CONSTEXPR decltype(auto) If_Then_Else(t&& value1, u&& value2)noexcept
 {//func begin
 	//different if to avoid reference collapsing rules
 	if constexpr (condition) {
