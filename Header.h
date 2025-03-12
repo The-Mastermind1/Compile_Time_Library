@@ -642,3 +642,45 @@ inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() {
 }
 
 _PANAGIOTIS_END
+
+
+
+/*
+//BEGIN
+//THIS STRUCT SIMPLY TAKES A TYPE PACK AND CHECKS WHITCH TYPE HAS THE BIGGEST SIZE
+//AND RETURNS IT AND DOES THAT WITH STD::CONDITIONAL_T AND SIZEOF
+//AND ALSO USES TEMPLATE RECURSIVE INSTANTIATION 
+//CAN BE USED AT COMPILE TIME 
+template<typename ...types>
+struct Largest_Type;
+
+//custom wrapper for the conditional of the Largest_Type struct
+//can be used at compile time 
+template<typename param, typename...rest>
+struct Wrapper {
+	using Type = typename Largest_Type<param, rest...>::Type;
+};
+
+template<typename first, typename second, typename...rest>
+struct Largest_Type<first, second, rest...> {
+	static_assert(Supports_Sizeof_V<first>&& Supports_Sizeof_V<second> && (Supports_Sizeof_V<rest>&&...), "all types must support sizeof operator ,no incomplete types allowed");
+
+	using Type = typename std::conditional_t<
+		(sizeof(first) > sizeof(second)),
+		 Wrapper<first,rest...>,
+		 Wrapper<second,rest...>
+	>::Type;
+};
+template<typename first, typename  second>
+struct Largest_Type<first, second> {
+	static_assert(Supports_Sizeof_V<first>&& Supports_Sizeof_V<second>, "all types must support sizeof operator ,no incomplete types allowed");
+	using Type = std::conditional_t<(sizeof(first) > sizeof(second)), first, second>;
+};
+template<typename first>
+struct Largest_Type<first> {
+	static_assert(Supports_Sizeof_V<first>, "all types must support sizeof operator ,no incomplete types allowed");
+	using Type = first;
+};
+
+//END
+*/
