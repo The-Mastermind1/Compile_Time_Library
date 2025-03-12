@@ -621,4 +621,24 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome()noexcept
 	return a==b;
 }//func end
 
+
+template<long double n,long double start = 1.0l,long   double end = n>
+requires(n > 0)
+inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() {
+	
+	constexpr  long double mid = start + (end - start) / 2.0;
+	if constexpr(Is_Equal<mid*mid,n,long double>()) {
+		return mid;
+	}
+	else {
+		if constexpr (mid * mid > n) {
+			return sqrt_for_doubles<n, start, mid - 1>();
+		}
+		else if constexpr (mid * mid < n) {
+			return sqrt_for_doubles<n, mid+1, end>();
+		}
+	}
+	
+}
+
 _PANAGIOTIS_END
