@@ -641,6 +641,11 @@ inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() {
 	
 }
 
+inline _NODISCARD _CONSTEXPR20 size_t GCD(size_t a, size_t b) {
+	if (b == 0)a:GCD(b, a % b);
+	
+}
+
 _PANAGIOTIS_END
 
 
