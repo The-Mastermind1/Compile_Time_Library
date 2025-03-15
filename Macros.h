@@ -4,7 +4,7 @@
 #include<utility>
 #include<exception>
 #include<cmath>
-
+#include<concepts>
 #define _NODISCARD [[nodiscard]]
 
 #define _PANAGIOTIS_BEGIN namespace panagiotis{
@@ -128,7 +128,27 @@ public:
     }
 };
 
+//begin
+template<typename _Ty>
+concept Less_Than_Comparable = requires(_Ty a, _Ty b) {
+    { a < b } -> std::convertible_to<bool>;
+};
+template<typename _Ty>
+concept Greater_Than_Comparable = requires(_Ty a, _Ty b) {
+    { a > b } noexcept-> std::convertible_to<bool>;
+};
+template<typename _Ty>
+concept Comparable = requires(_Ty a, _Ty b) {
+    { a == b }noexcept-> std::convertible_to<bool>;
+};
 
+template<typename _Ty>
+concept Can_Be_Sorted = requires(_Ty a, _Ty b) {
+    requires(Comparable< _Ty>);
+    requires(Greater_Than_Comparable< _Ty>);
+    requires(Less_Than_Comparable< _Ty>);
+};
+//end
 
 
 
