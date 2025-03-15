@@ -1000,7 +1000,8 @@ public:
 	
 	//this func implements binary search in an array 
 	//can be used at compile time
-	//if the array you passed is not sorted the wrong results will happen 
+	//if the array you passed is not sorted in ascending order
+	//  wrong results will happen 
 	template<typename _Ty, std::size_t N>
 	requires(Can_Be_Sorted<_Ty> ) //requires the type to support the operations > ,< ,==
 	inline static _NODISCARD _CONSTEXPR std::size_t Binary_Search(const std::array<_Ty, N>& a
