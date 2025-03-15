@@ -1007,13 +1007,29 @@ public:
 	inline static _NODISCARD _CONSTEXPR std::size_t Binary_Search(const std::array<_Ty, N>& a
 		, const _Ty& target, std::size_t start = 0
 		, std::size_t end = N) {//func begin
-		static_assert(N > 0);
+		static_assert(N > 0,"array size should be >0");
 		std::size_t mid = start + (end - start) / 2;
 		//return 5;
 		if (mid >= N)return a.size();
 
 		return (a[mid] == target) ? mid : (a[mid] > target ? Binary_Search(a, target, start, mid - 1) : Binary_Search(a, target, mid + 1, end));
 
+	}//func end
+
+	//this func searches an array and returns the index of the element if it is in
+	//the array ,if it not is return the size of the array
+	//can be used at compile time 
+	template<typename _Ty,std::size_t N>
+	requires(Comparable<_Ty>)
+	inline static _NODISCARD _CONSTEXPR std::size_t Linear_Search(const std::array<_Ty, N>&
+		a, const _Ty& target) {//func begin
+		static_assert(N > 0, "array size should be >0");
+		for (std::size_t i = 0; i < a.size(); i++) {
+			if (a[i] == target){
+				return i;
+			}
+		}
+		return a.size();
 	}//func end
 
 	
@@ -1322,6 +1338,8 @@ inline _NODISCARD _CONSTEXPR std::size_t GCD(std::size_t a, std::size_t b) {
 	return (b == 0)?a :GCD(b, a % b);
 
 }
+
+
 
 
 
