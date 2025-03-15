@@ -131,7 +131,7 @@ public:
 //begin
 template<typename _Ty>
 concept Less_Than_Comparable = requires(_Ty a, _Ty b) {
-    { a < b } -> std::convertible_to<bool>;
+    { a < b }noexcept -> std::convertible_to<bool>;
 };
 template<typename _Ty>
 concept Greater_Than_Comparable = requires(_Ty a, _Ty b) {
