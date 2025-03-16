@@ -899,20 +899,25 @@ public:
 	};
 	//End
 
+	//this func checks simply if the given array is sorted
+	//can be used at compile time 
 	template<typename _Ty, std::size_t N>
 	requires(Can_Be_Sorted<_Ty>)
-	inline static _NODISCARD _CONSTEXPR bool Is_Sorted(const std::array< _Ty, N>& a) {
+	inline static _NODISCARD _CONSTEXPR bool Is_Sorted(
+		const std::array< _Ty, N>& a) {//func begin
 		bool value1 = true;
 		bool value2 = true;
 		static_assert(N > 0,"array size should be >0");
+		//check for ascending order
 		for (std::size_t i = 0; i < a.size()-1; i++) {
-			if (!(a[i] < a[i + 1])) {
+			if (!(a[i] <= a[i + 1])) {
 				value1 = false;
 				break;
 			}
 		}
+		//check for descending order
 		for (std::size_t i = 0; i < a.size()-1; i++) {
-			if (!(a[i] > a[i + 1])) {
+			if (!(a[i] >= a[i + 1])) {
 				value2 = false;
 				break;
 			}
@@ -921,7 +926,7 @@ public:
 		return true;
 
 
-	}
+	}//func end
 
 
 
@@ -1032,10 +1037,13 @@ public:
 		return a.size();
 	}//func end
 
+	//this func simply implemments the bubble sort algorithm
+	//can be used at compile time 
 	template<typename _Ty,std::size_t N>
 	requires(Greater_Than_Comparable<_Ty> )
-	inline static _NODISCARD _CONSTEXPR std::array<_Ty,N> Bubble_Sort(std::array<_Ty, N> a) {
-		
+	inline static _NODISCARD _CONSTEXPR std::array<_Ty,N> Bubble_Sort(std::array<_Ty, N> a)
+		noexcept(noexcept(std::swap(std::declval<_Ty&>(), std::declval<_Ty&>()))) {
+		//func begin
 		static_assert(N > 1,"the array size should be >1,doesnt make any sence to sort an array with size 1");
 		static_assert(std::is_swappable_v<_Ty>,"for elements must be able to call swap");
 		for (std::size_t i = 0; i < N - 1; i++) {
@@ -1047,6 +1055,22 @@ public:
 		}
 		return a;
 		
+	}//func end
+
+	//this func simply reverses an array
+	//can be used at compile time 
+	template<typename _Ty,std::size_t N>
+	inline static _NODISCARD _CONSTEXPR std::array<_Ty, N> Reverse_Array(std::array<_Ty, N>a) {
+		static_assert(N > 1, "doesnt make any sence to reverse an array with 0 or 1 elements");
+		 std::array<_Ty, N> res{};
+		 std::size_t j = 0;
+		 for (std::size_t i = a.size() - 1; i > 0; i--) {
+
+			 res[j] = a[i];
+			 j++;
+		 }
+		 res[j] = a[0];
+		 return res;
 	}
 
 	
