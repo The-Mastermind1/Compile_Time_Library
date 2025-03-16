@@ -906,13 +906,13 @@ public:
 		bool value2 = true;
 		static_assert(N > 0,"array size should be >0");
 		for (std::size_t i = 0; i < a.size()-1; i++) {
-			if (a[i] >= a[i + 1]) {
+			if (!(a[i] < a[i + 1])) {
 				value1 = false;
 				break;
 			}
 		}
 		for (std::size_t i = 0; i < a.size()-1; i++) {
-			if (a[i] <= a[i + 1]) {
+			if (!(a[i] > a[i + 1])) {
 				value2 = false;
 				break;
 			}
@@ -1033,8 +1033,11 @@ public:
 	}//func end
 
 	template<typename _Ty,std::size_t N>
+	requires(Greater_Than_Comparable<_Ty> )
 	inline static _NODISCARD _CONSTEXPR std::array<_Ty,N> Bubble_Sort(std::array<_Ty, N> a) {
+		
 		static_assert(N > 1,"the array size should be >1,doesnt make any sence to sort an array with size 1");
+		static_assert(std::is_swappable_v<_Ty>,"for elements must be able to call swap");
 		for (std::size_t i = 0; i < N - 1; i++) {
 			for (std::size_t j = 0; j < N - i - 1; j++) {
 				if (a[j] > a[j + 1]) {
