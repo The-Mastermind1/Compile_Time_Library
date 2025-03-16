@@ -1032,6 +1032,20 @@ public:
 		return a.size();
 	}//func end
 
+	template<typename _Ty,std::size_t N>
+	inline static _NODISCARD _CONSTEXPR std::array<_Ty,N> Bubble_Sort(std::array<_Ty, N> a) {
+		static_assert(N > 1,"the array size should be >1,doesnt make any sence to sort an array with size 1");
+		for (std::size_t i = 0; i < N - 1; i++) {
+			for (std::size_t j = 0; j < N - i - 1; j++) {
+				if (a[j] > a[j + 1]) {
+					std::swap(a[j], a[j + 1]);
+				}
+			}
+		}
+		return a;
+		
+	}
+
 	
 
 };
@@ -1339,6 +1353,12 @@ inline _NODISCARD _CONSTEXPR std::size_t GCD(std::size_t a, std::size_t b) {
 
 }
 
+//this func count the number of ones that the binary represntation of n has
+//can be used at compile time 
+//0b for binary and 0's and 1's
+inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n) {
+	return n == 0 ? 0 : (n & 1) + Popcount(n >> 1);
+}
 
 
 
