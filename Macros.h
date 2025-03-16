@@ -141,12 +141,22 @@ template<typename _Ty>
 concept Comparable = requires(_Ty a, _Ty b) {
     { a == b }noexcept-> std::convertible_to<bool>;
 };
+template<typename _Ty>
+concept Less_Or_Equal_Than_Comparable = requires(_Ty a, _Ty b) {
+    { a <= b }noexcept ->std::convertible_to<bool>;
+};
+template<typename _Ty>
+concept Greater_Or_Equal_Than_Comparable = requires(_Ty a, _Ty b) {
+    { a >= b }noexcept ->std::convertible_to<bool>;
+};
 
 template<typename _Ty>
 concept Can_Be_Sorted = requires(_Ty a, _Ty b) {
     requires(Comparable< _Ty>);
     requires(Greater_Than_Comparable< _Ty>);
     requires(Less_Than_Comparable< _Ty>);
+    requires(Less_Or_Equal_Than_Comparable<_Ty>);
+    requires(Greater_Or_Equal_Than_Comparable<_Ty>);
 };
 //end
 
