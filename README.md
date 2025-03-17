@@ -34,9 +34,7 @@ thought about it alone
 <br><br>
 7)the struct has_size simply checks if the type passed supports a method called size();
 <br><br>
-8)there is also a struct called Type_Index that takes a list of types and then returns the index of the desired type like:<br>
-Type_Index<int,int,float,double,std::size_t>, gives 0.
-first int is the desired type ,the rest of the types are the types of the list that we are going to search 
+8)there is also a struct called Type_Index that takes a list of types and then returns the index of the desired type
 <br>
 <br>
 
