@@ -7,6 +7,9 @@ and concepts that will be used at header.h<br>
 4) inside this library there are various of functions structs and classes that use templates pretty much to give result at compile time<br>
 5)some of them use template recursive instantiation to give the result like:
 <br>
+<br>
+<br>
+
 Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
 <br>
 some of them are simple funcs that use recursion to give the result like :<br>
