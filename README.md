@@ -1,7 +1,7 @@
 # Compile Time Library 🚀⏳ 
 # 🔷 C++ Templates & Metaprogramming 🏗️📦
 
-# EXPLANATION
+# EXPLANATION:
 # BEGIN
 
 1)This library 936 line of code it is well detailed of what it does<br><br>
