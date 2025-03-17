@@ -11,14 +11,14 @@ and concepts that will be used at header.h<br><br>
 4) inside this library there are various of functions structs and classes that use templates pretty much to give result at compile time<br><br>
 5)some of them use template recursive instantiation to give the result like:
 Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
-<br>
-<br>
-<br>
-<br>
+
 6)some of them are simple funcs that use recursion to give the result like :<br>
 Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
 # END
-<br><br>
+<br>
+<br>
+<br>
+<br>
 The struct Supports_Sizeof simply check if you can apply sizeof operator into the passed type ,this used sfinaei <br>
 <br> there is also a better version of void that solves most of the problems that std::void_t has <br>
 <br><br> there is also a struct called dimensions which is pretty much the same with the std::rank from C++ Standard , i
