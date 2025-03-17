@@ -731,7 +731,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome()
 //can be used at compile time
 //uses Is_Equal func and uses also recursion
 template<long double n, long double start = 1.0l, long   double end = n>
-requires(n > 0)
+requires(n > 0 )
 inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() 
 {//func begin
 
@@ -741,14 +741,15 @@ inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles()
 	}
 	else {
 		if constexpr (mid * mid > n) {
-			return sqrt_for_doubles<n, start, mid - 1>();
+			return Sqrt_For_Doubles<n, start, mid - 1>();
 		}
 		else if constexpr (mid * mid < n) {
-			return sqrt_for_doubles<n, mid + 1, end>();
+			return Sqrt_For_Doubles<n, mid + 1, end>();
 		}
 	}
 
 }//func end 
+
 
 //simple func that the return the greatest common divison for two unsigned integers
 //can be used at compile time
