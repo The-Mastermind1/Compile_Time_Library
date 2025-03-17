@@ -3,6 +3,8 @@
 
 <br>
 <br>
+# EXPLANATION
+# BEGIN
 1)This library 936 line of code it is well detailed of what it does<br><br>
 2) the Macros.h header serves as a helper library to write exception and macros for the header.h 
 and concepts that will be used at header.h<br><br>
@@ -14,8 +16,9 @@ Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
 <br>
 <br>
 <br>
-some of them are simple funcs that use recursion to give the result like :<br>
+6)some of them are simple funcs that use recursion to give the result like :<br>
 Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
+#END
 <br><br>
 The struct Supports_Sizeof simply check if you can apply sizeof operator into the passed type ,this used sfinaei <br>
 <br> there is also a better version of void that solves most of the problems that std::void_t has <br>
