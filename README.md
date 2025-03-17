@@ -1,5 +1,5 @@
 # Compile Time Library 🚀⏳ 
-#🔷 C++ Templates & Metaprogramming 🏗️📦
+# 🔷 C++ Templates & Metaprogramming 🏗️📦
 
 <br>
 <br>
