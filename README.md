@@ -15,7 +15,7 @@ Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
 6)some of them are simple funcs that use recursion to give the result like :<br>
 Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
 # END
-<br>
+# DETAILED EXPLANATION:
 <br>
 <br>
 <br>
