@@ -202,7 +202,9 @@ struct Terms {
 
 
 };
-
+//this func takes a number and gives the e^x using an approximation,
+//you are the one to choose the number of iterations that will give,the higher the better
+//can be used at compile time 
 template<auto x>
 	requires(std::is_integral_v<decltype(x)>)
 struct Terms<x, 0> {
@@ -755,7 +757,7 @@ inline _NODISCARD _CONSTEXPR std::size_t GCD(std::size_t a, std::size_t b) {
 
 }
 
-//this func count the number of ones that the binary represntation of n has
+//this func counts the number of ones that the binary represntation of n has
 //can be used at compile time 
 //0b for binary and 0's and 1's
 inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n) {
