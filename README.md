@@ -21,7 +21,7 @@ Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
 <br>
 1) There is a struct Supports_Sizeof which simply checks if you can apply sizeof operator into the passed type ,this uses SFINAE CONSTEXT <br>
 <br>2) there is also a better version of void that solves most of the problems that std::void_t has <br>
-<br><br> there is also a struct called dimensions which is pretty much the same with the std::rank from C++ Standard , i
+<br><br> 3)there is also a struct called dimensions which is pretty much the same with the std::rank from C++ Standard , i
 thought about it alone 
 <br>
 there is also a struct called Largest_Type which takes a list of types and gives the type that is the largest in bytes 
