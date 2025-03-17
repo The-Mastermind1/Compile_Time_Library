@@ -70,6 +70,8 @@ Binary_Search,Is_Sorted,Is_NxN ,dotproduct,doaddition,dosubtraction, print1D_arr
 <br> 
 <br>
 17)there is also a struct called Abs and a func Is_Equal
+<br>
+<br>
 
 18)Power of Integers gives the result x^n 
 <br>
@@ -79,7 +81,8 @@ you are the one that gives the iterations be careful with that ,the more iterati
 <br>
 <br>
 
-# Finally 
+# FINALLY
+# END
 # 👥CONTRIBUTORS:
 ~The-Mastermind1<br>
 
