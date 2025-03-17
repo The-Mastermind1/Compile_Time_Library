@@ -35,8 +35,7 @@ thought about it alone
 7)the struct has_size simply checks if the type passed supports a method called size();
 <br><br>
 8)there is also a struct called Type_Index that takes a list of types and then returns the index of the desired type
-<br>
-<br>
+
 
 9) The C++ Standard contains in the header <type_traits> a struct called std::conditional_t which takes a bool condition a first type and a second type 
 and based on the condition it returns the first or the second type
