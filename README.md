@@ -66,5 +66,5 @@ you are the one that gives the iterations be careful with that ,the more iterati
 ~The-Mastermind1<br>
 
 # 🙏 Thank You for Reading!
-# I appreciate your interest in our project! 🚀
+# I appreciate your interest in my project! 🚀
 
