@@ -63,6 +63,9 @@ Power of Integers gives the result x^n
 <br> the func called terms can be used to give the result of e^x and uses an approximation to do that, not the best func ....
 you are the one that gives the iterations be careful with that ,the more iterations the better 
 <br>
+# 👥CONTRIBUTORS:
+~The-Mastermind1<br>
 
-
+# 🙏 Thank You for Reading!
+# I appreciate your interest in our project! 🚀
 
