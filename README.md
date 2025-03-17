@@ -37,7 +37,8 @@ thought about it alone
 8)there is also a struct called Type_Index that takes a list of types and then returns the index of the desired type like:<br>
 Type_Index<int,int,float,double,std::size_t>, gives 0.
 first int is the desired type ,the rest of the types are the types of the list that we are going to search 
-<br><br>
+<br>
+<br>
 
 9) The C++ Standard contains in the header <type_traits> a struct called std::conditional_t which takes a bool condition a first type and a second type 
 and based on the condition it returns the first or the second type
