@@ -13,9 +13,9 @@ Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
 <br>
 some of them are simple funcs that use recursion to give the result like :<br>
 Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
-<br>
-The struct Supports_Sizeof simply check if you can apply sizeof operator into the passed type ,this used sfinaei 
-<br> there is also a better version of void that solves most of the problems that std::void_t has 
+<br><br>
+The struct Supports_Sizeof simply check if you can apply sizeof operator into the passed type ,this used sfinaei <br>
+<br> there is also a better version of void that solves most of the problems that std::void_t has <br>
 <br> there is also a struct called dimensions which is pretty much the same with the std::rank from C++ Standard , i
 thought about it alone 
 <br>
