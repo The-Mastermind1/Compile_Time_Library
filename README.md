@@ -1,8 +1,8 @@
 # Compile Time Library 🚀⏳ 
 # 🔷 C++ Templates & Metaprogramming 🏗️📦
 
-# EXPLANATION:
-# BEGIN
+# 💡EXPLANATION:
+# ▶️BEGIN
 
 1)This library 936 line of code it is well detailed of what it does<br><br>
 2) the Macros.h header serves as a helper library to write exception and macros for the header.h 
@@ -14,9 +14,9 @@ Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
 
 6)some of them are simple funcs that use recursion to give the result like :<br>
 Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
-# END
-# DETAILED EXPLANATION:
-# BEGIN
+# 🔚END
+# 📖DETAILED EXPLANATION:
+# ▶️BEGIN
 <br>
 <br>
 <br>
@@ -82,7 +82,7 @@ you are the one that gives the iterations be careful with that ,the more iterati
 <br>
 
 # FINALLY
-# END
+# 🔚END
 # 👥CONTRIBUTORS:
 ~The-Mastermind1<br>
 
