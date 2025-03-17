@@ -39,36 +39,50 @@ thought about it alone
 <br>
 9) The C++ Standard contains in the header <type_traits> a struct called std::conditional_t which takes a bool condition a first type and a second type 
 and based on the condition it returns the first or the second type
-<br><br>
-i also created something like this but with values and is called  If_Then_Else which based on a bool  condition and two values that you gave it return one of them
-<br><br>
+<br>
+<br>
+10)i also created something like this but with values and is called  If_Then_Else which based on a bool  condition and two values that you gave it return one of them
+<br>
+<br>
 10)there is also a func called Factorial which returns the result but it used for loop not template recursive instantiation 
-<br><br>
+<br>
+<br>
 11)the func Make_Reversed_String return the string that is given reversed 
-<br><br>
+<br>
+<br>
 12)the func Type_Name gives back the name of the type you gave it along with something else 
-<br><br>
+<br>
+<br>
 13)inside the Array_Algorithms class there are simple compile time algorithms for the array and one at runtime like :<br><br>
 Binary_Search,Is_Sorted,Is_NxN ,dotproduct,doaddition,dosubtraction, print1D_array,Linear_Search,Bubble_Sort,Reverse_Array
-<br><br>
-15)There is also a func called Is_Equal_Strings
-<br><br>
-Also GCD=GREATEST COMMOND DIVISOR
 <br>
-Popcount counts the number of ones that the binary represntation of n has 
 <br>
-I Wanted a min max that could work with more arguments 
+14)There is also a func called Is_Equal_Strings
+<br>
+<br>
+🆘 GCD=GREATEST COMMOND DIVISOR🆘
+<br>
+<br>
+15)Popcount counts the number of ones that the binary represntation of n has 
+<br>
+<br>
+16)I Wanted a min max that could work with more arguments 
 <br> 
-there is also a struct called Abs and a func Is_Equal
+<br>
+17)there is also a struct called Abs and a func Is_Equal
 
-Power of Integers gives the result x^n 
-
-<br> the func called terms can be used to give the result of e^x and uses an approximation to do that, not the best func ....
+18)Power of Integers gives the result x^n 
+<br>
+<br>
+19)the func called terms can be used to give the result of e^x and uses an approximation to do that, not the best func ....
 you are the one that gives the iterations be careful with that ,the more iterations the better 
 <br>
+<br>
+
+# Finally 
 # 👥CONTRIBUTORS:
 ~The-Mastermind1<br>
 
-# 🙏 Thank You for Reading!
+# 🙏 Thank You for Reading! 
 # I appreciate your interest in my project! 🚀
 
