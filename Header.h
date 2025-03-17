@@ -16,7 +16,7 @@ _PANAGIOTIS_BEGIN
 //the sqrt of an unsigned integer
 //uses template recursive instantiation 
 template<std::size_t n, std::size_t  l0 = 1, std::size_t  h1 = n>
-	requires(n > 1)
+requires(n > 1)
 struct Sqrt {
 	inline static _CONSTEXPR auto mid = (l0 + h1 + 1) / 2;
 	using result = std::conditional_t < (mid* mid > n), Sqrt < n, l0, mid - 1 >, Sqrt<n, mid, h1 >>;
@@ -52,7 +52,7 @@ struct Factorial_Decimal {
 	inline  static auto  value = std::tgamma(n + 1);
 };
 template<auto n>
-	requires(Is_Decimal_v<decltype(n)>&& n >= 0)
+requires(Is_Decimal_v<decltype(n)>&& n >= 0)
 inline const  auto  Factorial_Decimal_v = Factorial_Decimal<n>::value;
 //factorial complete
 
@@ -202,9 +202,7 @@ struct Terms {
 
 
 };
-//this func takes a number and gives the e^x using an approximation,
-//you are the one to choose the number of iterations that will give,the higher the better
-//can be used at compile time 
+
 template<auto x>
 	requires(std::is_integral_v<decltype(x)>)
 struct Terms<x, 0> {
@@ -385,10 +383,13 @@ public:
 	//if the array you passed is not sorted in ascending order
 	//  wrong results will happen 
 	template<typename _Ty, std::size_t N>
-	requires(Can_Be_Sorted<_Ty> ) //requires the type to support the operations > ,< ,==
+	requires(Can_Be_Sorted<_Ty> &&
+	std::negation_v<std::is_array<_Ty>> &&
+		std::negation_v<std::is_same<_Ty,const char *>>) //requires the type to support the operations > ,< ,==
 	inline static _NODISCARD _CONSTEXPR std::size_t Binary_Search(const std::array<_Ty, N>& a
 		, const _Ty& target, std::size_t start = 0
 		, std::size_t end = N) {//func begin
+		
 		static_assert(N > 0,"array size should be >0");
 		std::size_t mid = start + (end - start) / 2;
 		//return 5;
@@ -398,11 +399,14 @@ public:
 
 	}//func end
 
+
 	//this func searches an array and returns the index of the element if it is in
 	//the array ,if it not is return the size of the array
 	//can be used at compile time 
 	template<typename _Ty,std::size_t N>
-	requires(Comparable<_Ty>)
+	requires(Can_Be_Sorted<_Ty>&&
+	std::negation_v<std::is_array<_Ty>>&&
+	std::negation_v<std::is_same<_Ty, const char*>>)
 	inline static _NODISCARD _CONSTEXPR std::size_t Linear_Search(const std::array<_Ty, N>&
 		a, const _Ty& target) {//func begin
 		static_assert(N > 0, "array size should be >0");
@@ -730,6 +734,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome()
 //this func calculates the square root of a long double 
 //can be used at compile time
 //uses Is_Equal func and uses also recursion
+//dont change the values start ,end 
 template<long double n, long double start = 1.0l, long   double end = n>
 requires(n > 0 )
 inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() 
@@ -750,23 +755,66 @@ inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles()
 
 }//func end 
 
-
 //simple func that the return the greatest common divison for two unsigned integers
 //can be used at compile time
-inline _NODISCARD _CONSTEXPR std::size_t GCD(std::size_t a, std::size_t b) {
+inline _NODISCARD _CONSTEXPR std::size_t GCD(std::size_t a, std::size_t b)
+{//func begin
 	return (b == 0)?a :GCD(b, a % b);
 
-}
+}//func end
 
-//this func counts the number of ones that the binary represntation of n has
+//this func count the number of ones that the binary represntation of n has
 //can be used at compile time 
 //0b for binary and 0's and 1's
-inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n) {
+inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n) 
+{//func begin
 	return n == 0 ? 0 : (n & 1) + Popcount(n >> 1);
-}
+}//func end
 
 
 
 
 
 _PANAGIOTIS_END
+
+
+
+/*
+//BEGIN
+//THIS STRUCT SIMPLY TAKES A TYPE PACK AND CHECKS WHITCH TYPE HAS THE BIGGEST SIZE
+//AND RETURNS IT AND DOES THAT WITH STD::CONDITIONAL_T AND SIZEOF
+//AND ALSO USES TEMPLATE RECURSIVE INSTANTIATION
+//CAN BE USED AT COMPILE TIME
+template<typename ...types>
+struct Largest_Type;
+
+//custom wrapper for the conditional of the Largest_Type struct
+//can be used at compile time
+template<typename param, typename...rest>
+struct Wrapper {
+	using Type = typename Largest_Type<param, rest...>::Type;
+};
+
+template<typename first, typename second, typename...rest>
+struct Largest_Type<first, second, rest...> {
+	static_assert(Supports_Sizeof_V<first>&& Supports_Sizeof_V<second> && (Supports_Sizeof_V<rest>&&...), "all types must support sizeof operator ,no incomplete types allowed");
+
+	using Type = typename std::conditional_t<
+		(sizeof(first) > sizeof(second)),
+		 Wrapper<first,rest...>,
+		 Wrapper<second,rest...>
+	>::Type;
+};
+template<typename first, typename  second>
+struct Largest_Type<first, second> {
+	static_assert(Supports_Sizeof_V<first>&& Supports_Sizeof_V<second>, "all types must support sizeof operator ,no incomplete types allowed");
+	using Type = std::conditional_t<(sizeof(first) > sizeof(second)), first, second>;
+};
+template<typename first>
+struct Largest_Type<first> {
+	static_assert(Supports_Sizeof_V<first>, "all types must support sizeof operator ,no incomplete types allowed");
+	using Type = first;
+};
+
+//END
+*/
