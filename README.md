@@ -1,16 +1,15 @@
 # COMPILE TIME LIBRARY 
 <br>
-1)This library 936 line of code it is well detailed of what it does<br>
-2) the Macros.h header serves as a helper library to write exception and macros for the header.h <br>
+1)This library 936 line of code it is well detailed of what it does<br><br>
+2) the Macros.h header serves as a helper library to write exception and macros for the header.h <br><br>
 and concepts that will be used at header.h<br>
-3)The header.h simply contains simple utility functions that can be used at compile time <br>
-4) inside this library there are various of functions structs and classes that use templates pretty much to give result at compile time<br>
+3)The header.h simply contains simple utility functions that can be used at compile time <br><br>
+4) inside this library there are various of functions structs and classes that use templates pretty much to give result at compile time<br><br>
 5)some of them use template recursive instantiation to give the result like:
-<br>
-<br>
-<br>
-
 Is_Prime,Sqrt,Factorial,Fibonnaci,Max,Min,Terms
+<br>
+<br>
+<br>
 <br>
 some of them are simple funcs that use recursion to give the result like :<br>
 Str_Len,Parce_Integer,Binary_To_Decimal,Sqrt_For_Doubles,GCD,Popcount
