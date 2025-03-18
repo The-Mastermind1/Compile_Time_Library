@@ -771,6 +771,29 @@ inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n)
 	return n == 0 ? 0 : (n & 1) + Popcount(n >> 1);
 }//func end
 
+template<typename ...types>
+class Type_List {
+
+};
+
+template<typename ...types>
+struct Pop_Front;
+template<typename first,typename ...rest>
+struct Pop_Front<Type_List<first, rest...>> {
+	using First = first;
+};
+template<>
+struct Pop_Front<Type_List<>> {
+	
+};
+template<typename ...types>
+struct Push_Front;
+
+template<typename New_Element,typename...rest>
+struct Push_Front<New_Element,Type_List<rest...>> {
+	using New_Type_List = Type_List<New_Element, rest...>;
+
+};
 
 
 
