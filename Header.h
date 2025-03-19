@@ -804,6 +804,26 @@ template <class _Ty, template <class...> class _Template>
 struct Is_Specialization : std::bool_constant<Is_Specialization_V<_Ty, _Template>> {};
 
 
+template <typename _Ty, typename =Void_t<>>
+struct Is_Functor : std::false_type {};
+
+template <typename _Ty>
+struct Is_Functor<_Ty, Void_t<decltype(&_Ty::operator())>> : std::true_type {};
+
+template<typename _Ty,typename =Void_t<>>
+inline _CONSTEXPR bool Is_Functor_V = is_functor<_Ty>::value;
+
+
+template<typename _Ty,typename=Void_t<>>
+struct Supports_Iterator :std::false_type {};
+
+template<typename _Ty>
+struct Supports_Iterator<_Ty, Void_t<typename _Ty::iterator>> :std::true_type{
+
+};
+
+template<typename _Ty,typename =Void_t<>>
+inline _CONSTEXPR bool Supports_Iterator_V = Supports_Iterator<_Ty>::value;
 
 
 
