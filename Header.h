@@ -795,6 +795,15 @@ struct Push_Front<New_Element,Type_List<rest...>> {
 
 };
 
+template <class _Ty, template <class...> class _Template>
+inline _CONSTEXPR bool Is_Specialization_V = false;
+template <template <class...> class _Template, class... _Ty>
+inline _CONSTEXPR bool Is_Specialization_V<_Template<_Ty...>, _Template> = true;
+
+template <class _Ty, template <class...> class _Template>
+struct Is_Specialization : std::bool_constant<Is_Specialization_V<_Ty, _Template>> {};
+
+
 
 
 
