@@ -836,6 +836,18 @@ inline _CONSTEXPR bool Supports_Iterator_V = Supports_Iterator<_Ty>::value;
 
 
 
+template<typename _Ty>
+inline _CONSTEXPR bool Is_Move_Only_V = std::conjunction_v<std::is_move_constructible<_Ty>
+	, std::is_move_assignable<_Ty>, std::negation<std::is_copy_assignable<_Ty>>,
+	std::negation<std::is_copy_constructible<_Ty>>>;
+
+
+template<typename _Ty>
+struct Is_Move_Only :std::bool_constant<Is_Move_Only_V<_Ty>>
+{
+
+};
+
 _PANAGIOTIS_END
 
 
