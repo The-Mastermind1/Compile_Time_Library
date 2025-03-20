@@ -661,7 +661,7 @@ struct Largest_Type<first> {
 };
 //END
 
-//takes to C-strings and checks if they are the same
+//takes two C-strings and checks if they are the same
 //,the C-strings must have the same length 
 //can be used at compile time
 template<std::size_t N>
@@ -673,6 +673,16 @@ inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 		}
 	}//for loop that checks if they are the same 
 	return true;
+}//func end
+
+//takes two C-strings and checks if they are the same
+//,in this version of the Is_Equal_Strings the C-strings dont have the same length
+// so they are not equal
+//can be used at compile time
+template<std::size_t N,std::size_t M>
+inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
+	, const char(&str2)[M]) {//func begin
+	return false;
 }//func end
 
 
