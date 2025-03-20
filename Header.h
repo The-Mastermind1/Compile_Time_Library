@@ -478,6 +478,7 @@ inline _NODISCARD std::string_view Type_Name()
 //and simply returns and array with contents of the underlying string reversed
 //can be used at compile times
 template<std::size_t N>
+requires(N<50)
 inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(
 	const char(&str)[N])noexcept {//func begin
 	static_assert(N > 1, "N should be >1");
@@ -680,6 +681,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 // so they are not equal
 //can be used at compile time
 template<std::size_t N,std::size_t M>
+requires(N<50)
 inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 	, const char(&str2)[M]) {//func begin
 	return false;
@@ -689,6 +691,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 //Is_Palindrome takes a const char (&str)[N] and check if the C-string inside is a palidrome
 //compile-time func 
 template<std::size_t N>
+requires(N<50)
 inline _NODISCARD _CONSTEXPR bool Is_Palindrome(const char(&str)[N])noexcept
 {//func begin
 	static_assert(N > 1, "N should be >1");
@@ -729,6 +732,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome(const char(&str)[N])noexcept
 //this overload simply takes a parameter pack more clear code than the other 
 //can be used at compile time 
 template<auto ...values>
+requires(sizeof...(values)<50)
 inline _NODISCARD _CONSTEXPR bool Is_Palindrome()
 {//func begin
 	static_assert(std::conjunction_v<std::is_same<char, decltype(values)>...>);
@@ -746,7 +750,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome()
 //uses Is_Equal func and uses also recursion
 //dont change the values start ,end 
 template<long double n, long double start = 1.0l, long   double end = n>
-requires(n > 0 )
+requires(n > 0.0 )
 inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() 
 {//func begin
 
