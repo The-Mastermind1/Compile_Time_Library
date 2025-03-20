@@ -821,14 +821,6 @@ template <class _Ty, template <class...> class _Template>
 struct Is_Specialization : std::bool_constant<Is_Specialization_V<_Ty, _Template>> {};
 
 
-template <typename _Ty, typename = Void_t<>>
-struct Is_Functor : std::false_type {};
-
-template <typename _Ty>
-struct Is_Functor<_Ty, Void_t<decltype(&_Ty::operator())>> : std::true_type {};
-
-template<typename _Ty, typename = Void_t<>>
-inline _CONSTEXPR bool Is_Functor_V = Is_Functor<_Ty>::value;
 
 
 template<typename _Ty, typename = Void_t<>>
