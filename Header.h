@@ -16,7 +16,7 @@ _PANAGIOTIS_BEGIN
 //the sqrt of an unsigned integer
 //uses template recursive instantiation 
 template<std::size_t n, std::size_t  l0 = 1, std::size_t  h1 = n>
-requires(n > 1)
+	requires(n > 1)
 struct Sqrt {
 	inline static _CONSTEXPR auto mid = (l0 + h1 + 1) / 2;
 	using result = std::conditional_t < (mid* mid > n), Sqrt < n, l0, mid - 1 >, Sqrt<n, mid, h1 >>;
@@ -52,7 +52,7 @@ struct Factorial_Decimal {
 	inline  static auto  value = std::tgamma(n + 1);
 };
 template<auto n>
-requires(Is_Decimal_v<decltype(n)>&& n >= 0)
+	requires(Is_Decimal_v<decltype(n)>&& n >= 0)
 inline const  auto  Factorial_Decimal_v = Factorial_Decimal<n>::value;
 //factorial complete
 
@@ -167,7 +167,7 @@ struct Max<first, second> {
 
 //Min
 template<auto first, auto second, auto...rest>
-	requires(std::is_arithmetic_v<decltype(first)>)
+requires(std::is_arithmetic_v<decltype(first)>)
 struct Min {
 	//enforse same
 	static_assert(std::conjunction_v<std::is_same<decltype(first), decltype(second)>, std::is_same<decltype(second), decltype(rest)>...>, "all types provided must be the same ");
@@ -176,7 +176,7 @@ struct Min {
 
 
 template <auto first, auto second>
-	requires(std::is_arithmetic_v<decltype(first)>)
+requires(std::is_arithmetic_v<decltype(first)>)
 struct Min<first, second> {
 
 	static_assert(std::is_same_v<decltype(first), decltype(second)>, "all types provided must be the same ");
@@ -249,26 +249,26 @@ public:
 	//to tell if the array is a matrix 
 	//the types you pass as _Ty must support sizeof dont give incomplete types 
 	//Begin
-	template<typename _Ty, std::size_t n, std::size_t m>
+	template<typename _Ty, std::size_t N, std::size_t M>
 	struct Is_NxN :std::false_type
 	{
 		static_assert(Supports_Sizeof_V<_Ty>, "incomplete types are not allowed");
-		_CONSTEXPR Is_NxN(const std::array<std::array<_Ty, n>, m>& arr)noexcept {
+		_CONSTEXPR Is_NxN(const std::array<std::array<_Ty, N>, M>& arr)noexcept {
 
 		}
-		_CONSTEXPR Is_NxN(const _Ty(&)[n][m])noexcept {
+		_CONSTEXPR Is_NxN(const _Ty(&)[N][M])noexcept {
 
 		}
 
 	};
-	template<typename _Ty, std::size_t n>
-	struct Is_NxN<_Ty, n, n> : std::true_type
+	template<typename _Ty, std::size_t N>
+	struct Is_NxN<_Ty, N, N> : std::true_type
 	{
 		static_assert(Supports_Sizeof_V<_Ty>, "incomplete types are not allowed");
-		_CONSTEXPR  Is_NxN(const std::array<std::array<_Ty, n>, n>&)noexcept {
+		_CONSTEXPR  Is_NxN(const std::array<std::array<_Ty, N>, N>&)noexcept {
 
 		}
-		_CONSTEXPR Is_NxN(const _Ty(&)[n][n])noexcept {
+		_CONSTEXPR Is_NxN(const _Ty(&)[N][N])noexcept {
 
 		}
 	};
@@ -277,21 +277,21 @@ public:
 	//this func checks simply if the given array is sorted
 	//can be used at compile time 
 	template<typename _Ty, std::size_t N>
-	requires(Can_Be_Sorted<_Ty>)
+		requires(Can_Be_Sorted<_Ty>)
 	inline static _NODISCARD _CONSTEXPR bool Is_Sorted(
 		const std::array< _Ty, N>& a) {//func begin
 		bool value1 = true;
 		bool value2 = true;
-		static_assert(N > 0,"array size should be >0");
+		static_assert(N > 0, "array size should be >0");
 		//check for ascending order
-		for (std::size_t i = 0; i < a.size()-1; i++) {
+		for (std::size_t i = 0; i < a.size() - 1; i++) {
 			if (!(a[i] <= a[i + 1])) {
 				value1 = false;
 				break;
 			}
 		}
 		//check for descending order
-		for (std::size_t i = 0; i < a.size()-1; i++) {
+		for (std::size_t i = 0; i < a.size() - 1; i++) {
 			if (!(a[i] >= a[i + 1])) {
 				value2 = false;
 				break;
@@ -311,7 +311,7 @@ public:
 	//and gives an array as a result
 	//can be used at compile time
 	template<typename t, std::size_t n, typename _Ty>
-	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
+		requires(Is_Decimal_v<t> || Is_Integer_v<t>)
 	inline _NODISCARD _CONSTEXPR static t dotproduct(std::array<t, n>::const_iterator it1,
 		std::array<t, n>::const_iterator it2, _Ty val)noexcept {//explicitly specify the template args otherwise the compiler cant deduce them
 		//func end
@@ -364,33 +364,32 @@ public:
 
 	}//func end
 	//simply print the contents of the array this func
-	template<typename t, std::size_t n>
-	requires(Is_Decimal_v<t> || Is_Integer_v<t>)
-	inline _NODISCARD static std::array<t, n> print1D_array(
-		const std::array<t, n>& arr1) {//func begin
-		static_assert(n > 0, "array_size must be >0");
+	template<typename t, std::size_t N>
+		requires(Is_Decimal_v<t> || Is_Integer_v<t>)
+	inline _NODISCARD static void print1D_array(
+		const std::array<t, N>& arr1) {//func begin
+		static_assert(N > 0, "array_size must be >0");
 		std::cout << "Array Elements:\n";
-		for (size_t i = 0; i < n; i++) {
+		for (size_t i = 0; i < N; i++) {
 
 			std::cout << arr1[i] << '\n';
 		}
 		return;
 
 	}//func end
-	
+
 	//this func implements binary search in an array 
 	//can be used at compile time
 	//if the array you passed is not sorted in ascending order
 	//  wrong results will happen 
 	template<typename _Ty, std::size_t N>
-	requires(Can_Be_Sorted<_Ty> &&
-	std::negation_v<std::is_array<_Ty>> &&
-		std::negation_v<std::is_same<_Ty,const char *>>) //requires the type to support the operations > ,< ,==
-	inline static _NODISCARD _CONSTEXPR std::size_t Binary_Search(const std::array<_Ty, N>& a
-		, const _Ty& target, std::size_t start = 0
-		, std::size_t end = N) {//func begin
-		
-		static_assert(N > 0,"array size should be >0");
+		requires(Can_Be_Sorted<_Ty>&&
+	std::negation_v<std::is_array<_Ty>>) //requires the type to support the operations > ,< ,==
+		inline static _NODISCARD _CONSTEXPR std::size_t Binary_Search(const std::array<_Ty, N>& a
+			, const _Ty& target, std::size_t start = 0
+			, std::size_t end = N) {//func begin
+
+		static_assert(N > 0, "array size should be >0");
 		std::size_t mid = start + (end - start) / 2;
 		//return 5;
 		if (mid >= N)return a.size();
@@ -399,19 +398,23 @@ public:
 
 	}//func end
 
+	//this func implements binary search in an array 
+	//can be used at compile time
+	//if the array you passed is not sorted in ascending order
+	//  wrong results will happen 
+	
 
 	//this func searches an array and returns the index of the element if it is in
 	//the array ,if it not is return the size of the array
 	//can be used at compile time 
-	template<typename _Ty,std::size_t N>
+	template<typename _Ty, std::size_t N>
 	requires(Can_Be_Sorted<_Ty>&&
-	std::negation_v<std::is_array<_Ty>>&&
-	std::negation_v<std::is_same<_Ty, const char*>>)
-	inline static _NODISCARD _CONSTEXPR std::size_t Linear_Search(const std::array<_Ty, N>&
-		a, const _Ty& target) {//func begin
+	std::negation_v<std::is_array<_Ty>> )
+		inline static _NODISCARD _CONSTEXPR std::size_t Linear_Search(const std::array<_Ty, N>&
+			a, const _Ty& target) {//func begin
 		static_assert(N > 0, "array size should be >0");
 		for (std::size_t i = 0; i < a.size(); i++) {
-			if (a[i] == target){
+			if (a[i] == target) {
 				return i;
 			}
 		}
@@ -420,13 +423,13 @@ public:
 
 	//this func simply implemments the bubble sort algorithm
 	//can be used at compile time 
-	template<typename _Ty,std::size_t N>
-	requires(Greater_Than_Comparable<_Ty> )
-	inline static _NODISCARD _CONSTEXPR std::array<_Ty,N> Bubble_Sort(std::array<_Ty, N> a)
+	template<typename _Ty, std::size_t N>
+	requires(Greater_Than_Comparable<_Ty> &&N<50)
+	inline static _NODISCARD _CONSTEXPR std::array<_Ty, N> Bubble_Sort(std::array<_Ty, N> a)
 		noexcept(noexcept(std::swap(std::declval<_Ty&>(), std::declval<_Ty&>()))) {
 		//func begin
-		static_assert(N > 1,"the array size should be >1,doesnt make any sence to sort an array with size 1");
-		static_assert(std::is_swappable_v<_Ty>,"for elements must be able to call swap");
+		static_assert(N > 1, "the array size should be >1,doesnt make any sence to sort an array with size 1");
+		static_assert(std::is_swappable_v<_Ty>, "for elements must be able to call swap");
 		for (std::size_t i = 0; i < N - 1; i++) {
 			for (std::size_t j = 0; j < N - i - 1; j++) {
 				if (a[j] > a[j + 1]) {
@@ -435,26 +438,27 @@ public:
 			}
 		}
 		return a;
-		
+
 	}//func end
 
 	//this func simply reverses an array
 	//can be used at compile time 
-	template<typename _Ty,std::size_t N>
-	inline static _NODISCARD _CONSTEXPR std::array<_Ty, N> Reverse_Array(std::array<_Ty, N>a) {
+	template<typename _Ty, std::size_t N>
+	requires(N<50)
+	inline static _NODISCARD _CONSTEXPR std::array<_Ty, N> Reverse_Array(const std::array<_Ty, N>&a) {
 		static_assert(N > 1, "doesnt make any sence to reverse an array with 0 or 1 elements");
-		 std::array<_Ty, N> res{};
-		 std::size_t j = 0;
-		 for (std::size_t i = a.size() - 1; i > 0; i--) {
+		std::array<_Ty, N> res{};
+		std::size_t j = 0;
+		for (std::size_t i = a.size() - 1; i > 0; i--) {
 
-			 res[j] = a[i];
-			 j++;
-		 }
-		 res[j] = a[0];
-		 return res;
+			res[j] = a[i];
+			j++;
+		}
+		res[j] = a[0];
+		return res;
 	}
 
-	
+
 
 };
 
@@ -478,7 +482,7 @@ inline _NODISCARD std::string_view Type_Name()
 //and simply returns and array with contents of the underlying string reversed
 //can be used at compile times
 template<std::size_t N>
-requires(N<50)
+requires(N < 50)
 inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(
 	const char(&str)[N])noexcept {//func begin
 	static_assert(N > 1, "N should be >1");
@@ -500,7 +504,7 @@ inline _NODISCARD _CONSTEXPR std::array<char, N> Make_Reversed_String(
 //requires N<=65
 //can be used at compile time
 template<std::size_t N>
-requires(N <= 65)
+	requires(N <= 65)
 inline _NODISCARD _CONSTEXPR std::size_t Factorial() noexcept
 {//func begin
 	if constexpr (N == 0) {
@@ -535,8 +539,8 @@ template<typename t>
 struct Dimensions {
 	inline static _CONSTEXPR std::size_t value = 0;
 };
-template<typename t, std::size_t n>
-struct Dimensions<t[n]> {
+template<typename t, std::size_t N>
+struct Dimensions<t[N]> {
 	inline static _CONSTEXPR std::size_t value = 1 + Dimensions<t>::value;
 };
 template<typename t>
@@ -680,8 +684,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 //,in this version of the Is_Equal_Strings the C-strings dont have the same length
 // so they are not equal
 //can be used at compile time
-template<std::size_t N,std::size_t M>
-requires(N<50)
+template<std::size_t N, std::size_t M>
 inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 	, const char(&str2)[M]) {//func begin
 	return false;
@@ -691,7 +694,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Equal_Strings(const char(&str1)[N]
 //Is_Palindrome takes a const char (&str)[N] and check if the C-string inside is a palidrome
 //compile-time func 
 template<std::size_t N>
-requires(N<50)
+requires(N < 50)
 inline _NODISCARD _CONSTEXPR bool Is_Palindrome(const char(&str)[N])noexcept
 {//func begin
 	static_assert(N > 1, "N should be >1");
@@ -732,7 +735,7 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome(const char(&str)[N])noexcept
 //this overload simply takes a parameter pack more clear code than the other 
 //can be used at compile time 
 template<auto ...values>
-requires(sizeof...(values)<50)
+	requires(sizeof...(values) < 50)
 inline _NODISCARD _CONSTEXPR bool Is_Palindrome()
 {//func begin
 	static_assert(std::conjunction_v<std::is_same<char, decltype(values)>...>);
@@ -750,8 +753,8 @@ inline _NODISCARD _CONSTEXPR bool Is_Palindrome()
 //uses Is_Equal func and uses also recursion
 //dont change the values start ,end 
 template<long double n, long double start = 1.0l, long   double end = n>
-requires(n > 0.0 )
-inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles() 
+	requires(n > 0.0)
+inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles()
 {//func begin
 
 	constexpr  long double mid = start + (end - start) / 2.0;
@@ -773,14 +776,14 @@ inline _NODISCARD _CONSTEXPR  long double Sqrt_For_Doubles()
 //can be used at compile time
 inline _NODISCARD _CONSTEXPR std::size_t GCD(std::size_t a, std::size_t b)
 {//func begin
-	return (b == 0)?a :GCD(b, a % b);
+	return (b == 0) ? a : GCD(b, a % b);
 
 }//func end
 
 //this func count the number of ones that the binary represntation of n has
 //can be used at compile time 
 //0b for binary and 0's and 1's
-inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n) 
+inline _NODISCARD _CONSTEXPR std::size_t Popcount(std::size_t n)
 {//func begin
 	return n == 0 ? 0 : (n & 1) + Popcount(n >> 1);
 }//func end
@@ -792,19 +795,19 @@ class Type_List {
 
 template<typename ...types>
 struct Pop_Front;
-template<typename first,typename ...rest>
+template<typename first, typename ...rest>
 struct Pop_Front<Type_List<first, rest...>> {
 	using First = first;
 };
 template<>
 struct Pop_Front<Type_List<>> {
-	
+
 };
 template<typename ...types>
 struct Push_Front;
 
-template<typename New_Element,typename...rest>
-struct Push_Front<New_Element,Type_List<rest...>> {
+template<typename New_Element, typename...rest>
+struct Push_Front<New_Element, Type_List<rest...>> {
 	using New_Type_List = Type_List<New_Element, rest...>;
 
 };
@@ -818,25 +821,25 @@ template <class _Ty, template <class...> class _Template>
 struct Is_Specialization : std::bool_constant<Is_Specialization_V<_Ty, _Template>> {};
 
 
-template <typename _Ty, typename =Void_t<>>
+template <typename _Ty, typename = Void_t<>>
 struct Is_Functor : std::false_type {};
 
 template <typename _Ty>
 struct Is_Functor<_Ty, Void_t<decltype(&_Ty::operator())>> : std::true_type {};
 
-template<typename _Ty,typename =Void_t<>>
-inline _CONSTEXPR bool Is_Functor_V = is_functor<_Ty>::value;
+template<typename _Ty, typename = Void_t<>>
+inline _CONSTEXPR bool Is_Functor_V = Is_Functor<_Ty>::value;
 
 
-template<typename _Ty,typename=Void_t<>>
+template<typename _Ty, typename = Void_t<>>
 struct Supports_Iterator :std::false_type {};
 
 template<typename _Ty>
-struct Supports_Iterator<_Ty, Void_t<typename _Ty::iterator>> :std::true_type{
+struct Supports_Iterator<_Ty, Void_t<typename _Ty::iterator>> :std::true_type {
 
 };
 
-template<typename _Ty,typename =Void_t<>>
+template<typename _Ty, typename = Void_t<>>
 inline _CONSTEXPR bool Supports_Iterator_V = Supports_Iterator<_Ty>::value;
 
 
