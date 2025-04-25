@@ -159,8 +159,7 @@ concept Can_Be_Sorted = requires(_Ty a, _Ty b) {
     requires(Greater_Or_Equal_Than_Comparable<_Ty>);
 };
 //end
-template<typename _Ty>
-inline constexpr bool Can_Be_Sorted_V = std::disjunction_v<Can_Be_Sorted<_Ty>>;
+
 
 
 
