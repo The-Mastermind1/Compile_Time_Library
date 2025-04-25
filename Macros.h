@@ -160,7 +160,7 @@ concept Can_Be_Sorted = requires(_Ty a, _Ty b) {
 };
 //end
 template<typename _Ty>
-inline constexpr bool value = std::disjunction_v<Can_Be_Sorted<_Ty>>;
+inline constexpr bool Can_Be_Sorted_V = std::disjunction_v<Can_Be_Sorted<_Ty>>;
 
 
 
